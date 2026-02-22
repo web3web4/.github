@@ -25,7 +25,7 @@
 - 📜 Smart contract development (Solidity, Hardhat)
 - ⛓️ Multi-chain deployment (EVM, TON, NEAR, and others)
 - 🔌 Wallet integrations (MetaMask, WalletConnect, etc.)
-- 🔒 Security-first development and auditing
+- 🔒 Expert manual smart contract auditing enhanced by our proprietary AI analysis tools
 
 ### 🤖 Web4 (AI & Intelligent Systems)
 **What We Build:**
@@ -69,7 +69,7 @@ We collaborate with startups, enterprises, and protocols to bring Web3 and AI vi
 ### 📋 Services
 - 🔗 **Web3 Development** — Smart contracts, dApps, NFTs, RWA tokenization, DAOs
 - 🤖 **AI Solutions** — Multi-provider orchestration, vision analysis, workflow automation
-- 🔒 **Security & Auditing** — Smart contract audits and security-first development
+- 🔒 **Security & Auditing** — Rigorous manual smart contract audits accelerated by our custom state-of-the-art AI platform, alongside security-first development
 - 💡 **Consulting** — Technical architecture, protocol design, and tokenomics
 
 ---
@@ -91,9 +91,22 @@ We collaborate with startups, enterprises, and protocols to bring Web3 and AI vi
 ### [LearnGami](http://learngami.com) - Gamified e-Learning Platform
 *Coming Soon - Stay Tuned*
 
-Check out the [NearGami.com](http://neargami.com) for the initial version and stay tuned for the transformation.
+Check out [NearGami.com](http://neargami.com) for the initial version and stay tuned for the transformation.
 
 *More Details Coming Soon*
+
+### [AnalyzicAI](https://analyzicai.com) - AI-Powered Analysis Ecosystem
+*Pre-Alpha*
+
+**AnalyzicAI** is an umbrella ecosystem of specialized AI-powered analysis tools that leverage multi-agent iterative rethinking consensus (combining **OpenAI GPT**, **Google Gemini**, and **Anthropic Claude**) to deliver bias-reduced, expert-level auditing.
+
+**The Ecosystem:**
+- 📜 **[SolidicAI](https://solidicai.com)** — Advanced smart contract analysis and security auditing platform.
+- 🖼️ **[UXicAI](https://uxicai.com)** — Intelligent UI/UX design analysis platform providing comprehensive visual and usability feedback.
+- 💡 **Your Domain Here** — Interested in analysis tools for legal cases, medical data, or other domains? [Open a GitHub issue](https://github.com/web3web4/analyzicai/issues) to suggest it!
+
+**Why Multi-Provider AI Consensus?**  
+By orchestrating multiple top-tier AI models through a sophisticated multi-step pipeline (Initial Analysis → Iterative Cross-Provider Rethink → Master Synthesis), AnalyzicAI overcomes the limitations, hallucinations, and biases of any single AI provider. This ensures highly accurate, reliable, and comprehensive analysis results.
 
 ### [TACoSec](https://github.com/web3web4/tacosec-frontend) - Secure Secret Stashing and Sharing
 
@@ -107,20 +120,6 @@ A privacy-first utility for managing sensitive data with **threshold encryption*
 
 **Built with:** React, TypeScript, ethers.js, Telegram Mini Apps  
 **Live:** [Telegram Bot](https://t.me/tacosec_bot) | [Web App](https://app.tacosec.com)
-
-### [UXic AI](https://uxicai.com) - AI-Powered User Experience Analysis
-*Coming Soon - Stay Tuned*
-
-UXic AI is an intelligent platform that combines insights from **OpenAI GPT-4V**, **Google Gemini Pro Vision**, and **Anthropic Claude** to deliver bias-reduced, multi-perspective, consensus-based design feedback.
-
-**Why Multi-Provider AI?**  
-By orchestrating multiple AI vision models through a sophisticated multi-step pipeline, UXic AI overcomes the limitations and biases of any single AI provider, delivering more accurate and comprehensive analysis.
-
-**Key Features:**
-- 🔄 **Multi-Step Analysis Pipeline** — Initial Analysis → Cross-Provider Rethink → Master Synthesis
-- 🤖 **Multi-AI Vision Model Orchestration** — Parallel processing with intelligent synthesis
-- 📊 **Intensive Multi-Criteria Evaluation** — Color, Typography, Layout, Navigation, Accessibility, Visual Hierarchy, Whitespace, Consistency
-- 🎯 **Consensus-Based Recommendations** — One comprehensive report that combines different AI providers' insights
 
 ---
 
