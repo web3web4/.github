@@ -15,26 +15,31 @@
 ### 🔗 Web3 (Blockchain & Decentralization)
 
 **What We Build:**
+
 - 🎨 NFT platforms and marketplaces
-- 🏢 Real World Asset (RWA) tokenization platforms
+- 🏢 Real World Asset (RWA) tokenization platforms — including fractional real estate security tokens
 - 🗳️ DAOs and governance systems
 - 💰 Token-based gamification
 - 👛 Custom decentralized applications (dApps) and Web3 developer tooling (SDKs)
 
 **How We Build It:**
+
 - 📜 Smart contract development (Solidity, Hardhat)
 - ⛓️ Multi-chain deployment (EVM, TON, NEAR, and others)
 - 🔌 Wallet integrations (MetaMask, WalletConnect, etc.)
 - 🔒 Expert manual smart contract auditing enhanced by our proprietary AI analysis tools
 
 ### 🤖 Web4 (AI & Intelligent Systems)
+
 **What We Build:**
+
 - 👁️ Multi-modal text & vision analysis and classification (images, videos, documents)
 - 🎨 AI-powered content generation and design assistance
 - 🎯 AI-powered decision support systems
 - 🤝 AI agents for workflow automation
 
 **How We Build It:**
+
 - 🔌 Integration with OpenAI, Gemini, Claude, Ollama, and other providers
 - 🎯 Multi-provider orchestration for reliability and bias reduction
 - 🔬 Prompt engineering and optimization
@@ -44,12 +49,12 @@
 
 ## 💻 Technology Stack
 
-| Category | Technologies |
-|----------|-------------|
+| Category          | Technologies                                                                             |
+| ----------------- | ---------------------------------------------------------------------------------------- |
 | **⛓️ Blockchain** | EVM, Solidity, Hardhat; Telegram Open Network (TON), NEAR Protocol, and others as needed |
-| **🧠 AI/ML** | OpenAI, Google Gemini, Anthropic Claude, Ollama, and others depending on the use case |
-| **⚙️ Backend** | Node.js, TypeScript, Express, Next.js API routes |
-| **🎨 Frontend** | React, Next.js, TypeScript, ethers.js, wagmi |
+| **🧠 AI/ML**      | OpenAI, Google Gemini, Anthropic Claude, Ollama, and others depending on the use case    |
+| **⚙️ Backend**    | Node.js, TypeScript, Express, Next.js API routes                                         |
+| **🎨 Frontend**   | React, Next.js, TypeScript, ethers.js, wagmi                                             |
 
 ---
 
@@ -67,6 +72,7 @@
 We collaborate with startups, enterprises, and protocols to bring Web3 and AI visions to life.
 
 ### 📋 Services
+
 - 🔗 **Web3 Development** — Smart contracts, dApps, NFTs, RWA tokenization, DAOs
 - 🤖 **AI Solutions** — Multi-provider orchestration, vision analysis, workflow automation
 - 🔒 **Security & Auditing** — Rigorous manual smart contract audits accelerated by our custom state-of-the-art AI platform, alongside security-first development
@@ -88,19 +94,31 @@ We collaborate with startups, enterprises, and protocols to bring Web3 and AI vi
 
 ## 🌟 Featured Projects
 
-### [LearnGami](http://learngami.com) - Gamified e-Learning Platform
-*Coming Soon - Stay Tuned*
+### 🏢 Real Estate Tokenization Platform
 
-Check out [NearGami.com](http://neargami.com) for the initial version and stay tuned for the transformation.
+_In Active Development — Private Repository_
 
-*More Details Coming Soon*
+👀 _Currently in private development. Selected components may be open-sourced in the near future._
+
+A production-grade monorepo for **issuing and trading fractional real estate security tokens** on EVM chains.
+
+**Key Features:**
+
+- 🏠 Property verification and fractional ownership
+- 🔐 Compliant on-chain investment with wallet-based authentication
+- 🔄 Secondary market for trading property tokens
+- 🏗️ Multi-app architecture: portal, issuance, investment, and exchange
+
+**Built with:** Solidity, OpenZeppelin, Next.js, Supabase, Hardhat, Turborepo
 
 ### [AnalyzicAI](https://analyzicai.com) - AI-Powered Analysis Ecosystem
-*Pre-Alpha*
+
+_Pre-Alpha_
 
 **AnalyzicAI** is an umbrella ecosystem of specialized AI-powered analysis tools that leverage multi-agent iterative rethinking consensus (combining **OpenAI GPT**, **Google Gemini**, and **Anthropic Claude**) to deliver bias-reduced, expert-level auditing.
 
 **The Ecosystem:**
+
 - 📜 **[SolidicAI](https://solidicai.com)** — Advanced smart contract analysis and security auditing platform.
 - 🖼️ **[UXicAI](https://uxicai.com)** — Intelligent UI/UX design analysis platform providing comprehensive visual and usability feedback.
 - 💡 **Your Domain Here** — Interested in analysis tools for legal cases, medical data, or other domains? [Open a GitHub issue](https://github.com/web3web4/analyzicai/issues) to suggest it!
@@ -108,11 +126,20 @@ Check out [NearGami.com](http://neargami.com) for the initial version and stay t
 **Why Multi-Provider AI Consensus?**  
 By orchestrating multiple top-tier AI models through a sophisticated multi-step pipeline (Initial Analysis → Iterative Cross-Provider Rethink → Master Synthesis), AnalyzicAI overcomes the limitations, hallucinations, and biases of any single AI provider. This ensures highly accurate, reliable, and comprehensive analysis results.
 
+### [LearnGami](http://learngami.com) - Gamified e-Learning Platform
+
+_Coming Soon - Stay Tuned_
+
+Check out [NearGami.com](http://neargami.com) for the initial version and stay tuned for the transformation!
+
+_More Details and Big Changes are Coming Soon_
+
 ### [TACoSec](https://github.com/web3web4/tacosec-frontend) - Secure Secret Stashing and Sharing
 
 A privacy-first utility for managing sensitive data with **threshold encryption** and end-to-end security, powered by [NuCypher TACo](https://taco.build).
 
 **Key Features:**
+
 - 🔐 Client-side threshold encryption (Ferveo, BLS12-381, MPC)
 - 🔑 Time-based access control and address-based permissions
 - 💬 Secure encrypted replies and audit trails
@@ -131,6 +158,6 @@ Explore our other repositories to see what we're building. Contributions and fee
 
 <div align="center">
 
-### 💫 *Bridging decentralization and intelligence, one commit at a time* 💫
+### 💫 _Bridging decentralization and intelligence, one commit at a time_ 💫
 
 </div>
