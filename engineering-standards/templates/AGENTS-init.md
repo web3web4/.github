@@ -21,6 +21,17 @@ Deviate only when the project has a specific reason to.
 
 ---
 
+## Non-Development Projects
+
+If this project is **not a software development repo** (e.g., documentation, research, regulatory submissions):
+
+- Set `## Project Type` in `AGENTS.md` to the appropriate value.
+- **Skip** steps 2 (architecture-reference), 3 (dotenv-cli), and the quality-gate items in the Checklist. Or replace them with an equivalent/similar step(s), if applicable.
+- **Keep**: `AGENTS.md`, `execution-plans/` scaffold, and `agents-instructions/prompt-authoring-guide.md`.
+- **Delete** `agents-instructions/implementation-checklist.md`, `agents-instructions/post-implementation-checklist.md`, and `agents-instructions/architecture-reference.md` — or replace with the equivalent/similar file(s), if applicable.
+
+---
+
 ## 1. Fill in AGENTS.md
 
 Replace the `...` placeholders in `AGENTS.md` with your project's actual info:
@@ -69,10 +80,11 @@ No need to add `.gitkeep`.
 
 ## Checklist
 
-- [ ] Filled in AGENTS.md (Project Overview, Project Status, Development Rules)
-- [ ] Copied and filled in `agents-instructions/architecture-reference.md` (Tech Stack, Patterns, Arch Decisions)
-- [ ] Adapted `agents-instructions/post-implementation-checklist.md` quality-gate commands
-- [ ] Installed `dotenv-cli` and updated app scripts
+- [ ] Filled in AGENTS.md (Project Overview, Project Status, Project Type, Development Rules)
+- [ ] _(dev only)_ Copied and filled in `agents-instructions/architecture-reference.md` (Tech Stack, Patterns, Arch Decisions)
+- [ ] _(dev only)_ Adapted `agents-instructions/post-implementation-checklist.md` quality-gate commands
+- [ ] _(dev only)_ Installed `dotenv-cli` and updated app scripts
+- [ ] _(non-dev)_ Deleted, edit and/or replace dev-only `agents-instructions/` files (architecture-reference, implementation-checklist, post-implementation-checklist)
 - [ ] Scaffolded `execution-plans/` directory
 - [ ] Removed the "Setup guide" line from the top of AGENTS.md
 - [ ] Deleted this file

@@ -1,5 +1,7 @@
 # Post-Implementation Checklist
 
+> **Scope:** Software development projects only. Delete, adapt or replace this file for documentation, research, or non-code repos. The Quality Gates section (step 3) is TypeScript/pnpm-specific — adapt commands if using a different stack.
+
 Run this checklist after implementation is complete and code is committed.
 
 ## 1. Metadata
@@ -59,11 +61,16 @@ For scoped work, use filters: `pnpm --filter @[org]/[package] typecheck build li
 - [ ] If the work reveals a reusable architectural pattern → update `docs/` or `AGENTS.md`
 - [ ] Record lessons learned in repo/user memory if applicable
 
-## 8. PR Package
+## 8. Git Operations — Explicit Approval Required
 
-- [ ] When the user asks for a **PR package**, output each field under a bold label with its own code block — paste-ready for GitHub form fields.
-
-Fields: issue title, issue description, branch, commit message, PR title, PR description.
+- [ ] When the user asks for a **New PR Creation Data** provide each of the following fields under a bold label with a separate MarkDown code block — paste-ready for GitHub forms fields:
+  - issue title,
+  - issue description
+  - branch name
+  - commit message
+  - PR title
+  - PR description
+- [ ] **Stop. Wait for explicit approval before running any git write operation** (commit, push, branch create/delete, force-push, amend).
 
 **Note:** Be very concise.
 

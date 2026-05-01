@@ -13,6 +13,10 @@
 
 ...
 
+## Project Type
+
+`[Development — TypeScript]` <!-- Options: Development — TypeScript | Development — [language] | Documentation | Research | ... -->
+
 ## Architecture & Stack
 
 See [`agents-instructions/architecture-reference.md`](agents-instructions/architecture-reference.md) for tech stack, engineering patterns, and architectural decisions. Only read that file when the task involves stack choices, new dependencies, or architecture.
@@ -26,7 +30,7 @@ See [`agents-instructions/architecture-reference.md`](agents-instructions/archit
   - All other `.md` files should only be created inside `execution-plans/` or `docs/` unless the task explicitly requires otherwise.
 - **Testing**: ...
 - **Knowledge capture**: When you discover a reusable pattern or architectural insight during a task, append it to `execution-plans/todo/scratch.md` — don't break focus to write to `docs/` mid-task.
-- **No git write ops** unless user explicitly requests. Read-only git commands are fine.
+- **No git write ops without explicit per-operation approval**: `git commit`, `git push`, branch deletion, force-push, and amend each require their own explicit approval — even mid-workflow. Read-only git commands are fine.
 - **Specs vs. code**: If code deviates from a spec but the code is better, propose updating the spec — don't "fix" working code.
 - **Test failures**: Investigate production code first before assuming the test is wrong.
 
@@ -123,6 +127,7 @@ _If needed_
 - **Critical plan evaluation**: Plans, architecture docs, and prior agent artifacts are inputs, not gospel. Verify claims against actual code and data before executing. When you spot gaps, conflicts, or suboptimal choices — flag them before executing and propose an alternative. Do not over-flag cosmetic or subjective concerns — focus on issues that would cause bugs, data inconsistencies, or architectural drift.
 - **No silent omissions**: If an edge case, requirement, or code block is being skipped, explicitly state what was omitted and why.
 - **Zero filler**: Skip formalities like pleasantries and apologies. Focus on actionable steps and code.
+- **Copyable text as code blocks**: When asked to provide a piece of text for direct use (a template, message, example, form field value, very concise prompt, etc.) rather than to answer a question, wrap it in a fenced Markdown code block.
 
 ## Dev Scripts
 

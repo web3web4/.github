@@ -1,5 +1,7 @@
 # Implementation Quality Checklist
 
+> **Scope:** Software development projects only. Delete, adapt or replace this file for documentation, research, or non-code repos.
+
 When planning and implementing any tracked work (features, fixes, refactors), ensure the following engineering standards are met:
 
 ## 1. DTO Boundary Checks
