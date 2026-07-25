@@ -1,0 +1,88 @@
+name: Skills Drift
+
+# Reusable workflow. Consuming repos call it to verify that their vendored
+# copies of the org's shared skills still match the upstream source in
+# web3web4/.github.
+#
+# The skills guarded here are project-agnostic by design and carry an explicit
+# "never edit the installed copy" rule. Per-project configuration belongs in the
+# consuming repo's AGENTS.md, never inside a SKILL.md. A skill that is meant to
+# be customized per project must be left out of the `skills` input.
+
+on:
+  workflow_call:
+    inputs:
+      skills:
+        description: Space-separated skill names to verify.
+        required: false
+        type: string
+        default: execution-plans-workflow prompt-authoring-guide
+      ref:
+        description: Upstream ref in web3web4/.github to compare against.
+        required: false
+        type: string
+        default: main
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify vendored skills match upstream
+        env:
+          SKILLS: ${{ inputs.skills }}
+          UPSTREAM_REF: ${{ inputs.ref }}
+        run: |
+          set -euo pipefail
+          failed=0
+
+          for skill in $SKILLS; do
+            installed=".agents/skills/$skill/SKILL.md"
+            upstream_url="https://raw.githubusercontent.com/web3web4/.github/$UPSTREAM_REF/skills/$skill/SKILL.md"
+
+            if [ ! -f "$installed" ]; then
+              echo "::error file=$installed::Skill '$skill' is not installed. Run: npx skills add web3web4/.github --skill $skill --copy -a github-copilot -y"
+              failed=1
+              continue
+            fi
+
+            if ! curl -fsSL "$upstream_url" -o /tmp/upstream.md; then
+              echo "::error::Could not fetch upstream skill '$skill' from $upstream_url"
+              failed=1
+              continue
+            fi
+
+            if diff -u /tmp/upstream.md "$installed" > /tmp/skill.diff; then
+              echo "OK  $skill"
+            else
+              echo "::error file=$installed::Skill '$skill' differs from upstream web3web4/.github@$UPSTREAM_REF."
+              echo "If you edited the installed copy: revert it. Shared skills must never be edited in place — put project-specific rules in AGENTS.md."
+              echo "If upstream moved ahead: run 'npx skills update $skill' and commit the result."
+              echo "--- upstream vs installed ---"
+              cat /tmp/skill.diff
+              failed=1
+            fi
+          done
+
+          exit $failed
+
+      - name: Verify skills-lock.json records a portable source
+        run: |
+          set -euo pipefail
+          if [ ! -f skills-lock.json ]; then
+            echo "::error file=skills-lock.json::skills-lock.json is missing. It must be committed alongside .agents/skills/."
+            exit 1
+          fi
+
+          # A local-path install records an absolute machine-specific path, which
+          # breaks `npx skills update` for everyone else.
+          if grep -q '"sourceType": *"local"' skills-lock.json; then
+            echo "::error file=skills-lock.json::skills-lock.json records a local install source. Reinstall from the GitHub source: npx skills add web3web4/.github --skill <name> --copy -a github-copilot -y"
+            exit 1
+          fi
+
+          echo "OK  skills-lock.json"

@@ -26,9 +26,9 @@ Deviate only when the project has a specific reason to.
 If this project is **not a software development repo** (e.g., documentation, research, regulatory submissions):
 
 - Set `## Project Type` in `AGENTS.md` to the appropriate value.
-- **Skip** steps 2 (architecture-reference), 4 (dotenv-cli), and the quality-gate items in the Checklist. Or replace them with an equivalent/similar step(s), if applicable.
-- **Keep**: `AGENTS.md`, the `execution-plans-workflow` skill (step 3), the `execution-plans/` scaffold, and `agents-instructions/prompt-authoring-guide.md`. Set the categories in `AGENTS.md` to `drafting`/`revisions`/`analysis`.
-- **Delete** `agents-instructions/implementation-checklist.md`, `agents-instructions/post-implementation-checklist.md`, and `agents-instructions/architecture-reference.md` — or replace with the equivalent/similar file(s), if applicable.
+- **Skip** steps 2 (architecture-reference), 5 (dotenv-cli), and the quality-gate items in the Checklist. Or replace them with an equivalent/similar step(s), if applicable.
+- **Keep**: `AGENTS.md`, the shared skills (step 3), the skills-drift CI check (step 4), and the `execution-plans/` scaffold. Set the categories in `AGENTS.md` to `drafting`/`revisions`/`analysis`.
+- **Delete** `agents-instructions/implementation-checklist.md`, `agents-instructions/post-implementation-checklist.md`, and `agents-instructions/architecture-reference.md` — or replace with the equivalent/similar file(s), if applicable. If nothing is left, delete the `agents-instructions/` folder.
 
 ---
 
@@ -57,28 +57,47 @@ Copy the `agents-instructions/` folder from the templates into your repo root. T
   - **API Design**: All endpoints validated with Zod. Return typed responses.
   ```
 
-- The other files (`implementation-checklist.md`, `post-implementation-checklist.md`, `prompt-authoring-guide.md`) can be used as-is or adapted to your project. Update the `post-implementation-checklist.md` quality-gate commands to match your project's script names.
+- The other files (`implementation-checklist.md`, `post-implementation-checklist.md`) are **starting points, not drop-ins**. Rewrite their contents for this project's language, stack, and script names — a Python CLI and a Next.js monorepo should not share the same quality gates.
 
-> The `execution-plans/` workflow mechanics are **not** copied into `agents-instructions/`. They are installed as a shared skill in step 3.
+> The `execution-plans/` workflow mechanics and the prompt authoring guide are **not** copied into `agents-instructions/`. They are project-agnostic and installed as shared skills in step 3.
 
-## 3. Install the execution-plans-workflow skill
-
-```bash
-npx skills add web3web4/.github --skill execution-plans-workflow --copy -a github-copilot -y
-```
-
-This writes `.agents/skills/execution-plans-workflow/SKILL.md` plus a `skills-lock.json` at the repo root. Commit both.
-
-`.agents/skills/` is the project skill path shared by GitHub Copilot, Codex, Cursor, Gemini CLI, Cline, Zed, Amp, and OpenCode — one install covers all of them. If the project also has a `CLAUDE.md`, add a repo-relative symlink so Claude Code picks it up without a duplicate file:
+## 3. Install the shared skills
 
 ```bash
-mkdir -p .claude/skills
-ln -s ../../.agents/skills/execution-plans-workflow .claude/skills/execution-plans-workflow
+npx skills add web3web4/.github \
+  --skill execution-plans-workflow \
+  --skill prompt-authoring-guide \
+  --copy -a github-copilot -y
 ```
 
-Refresh later with `npx skills update execution-plans-workflow`. The skill is project-agnostic — **never edit the installed file**, updates overwrite it. Project-specific rules (category names, which companion checklists exist) belong in `AGENTS.md`.
+This writes `.agents/skills/<name>/SKILL.md` for each skill plus a `skills-lock.json` at the repo root. Commit all of it.
 
-## 4. Install dotenv-cli
+`.agents/skills/` is the project skill path shared by GitHub Copilot, Codex, Cursor, Gemini CLI, Antigravity, Cline, Zed, Amp, and OpenCode — one install covers all of them. Claude Code reads `.claude/skills/` instead; rather than duplicating the files, point `CLAUDE.md` at the `.agents/skills/` paths directly.
+
+Refresh later with `npx skills update`. These skills are project-agnostic — **never edit an installed file**, updates overwrite it. Project-specific rules belong in `AGENTS.md`.
+
+> Install from the GitHub source, not a local path. `skills-lock.json` records the source verbatim, and a local path is an absolute machine-specific path that breaks `npx skills update` for everyone else.
+
+## 4. Add the skills-drift CI check
+
+Create `.github/workflows/skills-drift.yml`:
+
+```yaml
+name: Skills Drift
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  skills-drift:
+    uses: web3web4/.github/.github/workflows/skills-drift.yml@main
+```
+
+It fails if a vendored skill differs from upstream, or if `skills-lock.json` is missing or records a local install source.
+
+## 5. Install dotenv-cli
 
 ```bash
 pnpm add -wD dotenv-cli
@@ -86,7 +105,7 @@ pnpm add -wD dotenv-cli
 
 Adjust the relative path (`../../`) based on app depth. See [env-loading standard](https://github.com/web3web4/.github/blob/main/engineering-standards/env-loading.md).
 
-## 5. Scaffold execution-plans
+## 6. Scaffold execution-plans
 
 ```bash
 mkdir -p execution-plans/{todo,doing,done}/{fixes,features,analysis}
@@ -101,9 +120,10 @@ No need to add `.gitkeep`.
 
 - [ ] Filled in AGENTS.md (Project Overview, Project Status, Project Type, Development Rules)
 - [ ] _(dev only)_ Copied and filled in `agents-instructions/architecture-reference.md` (Tech Stack, Patterns, Arch Decisions)
-- [ ] _(dev only)_ Adapted `agents-instructions/post-implementation-checklist.md` quality-gate commands
-- [ ] Installed the `execution-plans-workflow` skill and committed `.agents/skills/` + `skills-lock.json`
-- [ ] _(Claude Code projects)_ Added the `.claude/skills/` relative symlink
+- [ ] _(dev only)_ Rewrote `agents-instructions/implementation-checklist.md` and `post-implementation-checklist.md` for this project's stack
+- [ ] Installed the shared skills and committed `.agents/skills/` + `skills-lock.json`
+- [ ] Added `.github/workflows/skills-drift.yml`
+- [ ] _(Claude Code projects)_ Pointed `CLAUDE.md` at the `.agents/skills/` paths
 - [ ] _(dev only)_ Installed `dotenv-cli` and updated app scripts
 - [ ] _(non-dev)_ Deleted, edit and/or replace dev-only `agents-instructions/` files (architecture-reference, implementation-checklist, post-implementation-checklist)
 - [ ] Scaffolded `execution-plans/` directory

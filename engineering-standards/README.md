@@ -10,19 +10,39 @@ This directory contains company-wide engineering standards and patterns. These s
 
 - [AGENTS.md Template](templates/AGENTS.md) - Boilerplate for giving AI coding agents instant context on a repo's architecture, rules, and workflows.
 - [AGENTS-init.md](templates/AGENTS-init.md) - One-time setup guide: fill in AGENTS.md, scaffold `execution-plans/`, and configure tooling. Delete after setup.
-- [agents-instructions/](templates/agents-instructions/) - Companion instruction files referenced by AGENTS.md: architecture reference, implementation checklist, post-implementation checklist, and prompt authoring guide.
+- [agents-instructions/](templates/agents-instructions/) - Companion instruction files referenced by AGENTS.md: architecture reference, implementation checklist, post-implementation checklist. These are **starting points to rewrite per project**, not drop-ins.
 
 ## Skills
 
-Installable agent skills, shared across repos via the [`skills` CLI](https://github.com/vercel-labs/skills).
+Project-agnostic agent guidance, shared across repos via the [`skills` CLI](https://github.com/vercel-labs/skills).
 
-- [`execution-plans-workflow`](../skills/execution-plans-workflow/SKILL.md) - Mechanics of the `execution-plans/` task-artifact system: folder lifecycle, naming convention, artifact template.
+| Skill                                                                     | Purpose                                                                                                           |
+| ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| [`execution-plans-workflow`](../skills/execution-plans-workflow/SKILL.md) | Mechanics of the `execution-plans/` task-artifact system: folder lifecycle, naming convention, artifact template. |
+| [`prompt-authoring-guide`](../skills/prompt-authoring-guide/SKILL.md)     | How to write and review handoff prompts that instruct a fresh agent session to produce a plan.                    |
 
-  ```bash
-  npx skills add web3web4/.github --skill execution-plans-workflow --copy -a github-copilot -y
+```bash
+npx skills add web3web4/.github \
+  --skill execution-plans-workflow \
+  --skill prompt-authoring-guide \
+  --copy -a github-copilot -y
+```
+
+Installs to `.agents/skills/` (shared by GitHub Copilot, Codex, Cursor, Gemini CLI, Antigravity, Cline, Zed, Amp, OpenCode). Refresh with `npx skills update`. Commit `.agents/skills/` and `skills-lock.json`.
+
+**Skills carry no project-specific content.** Updates overwrite them wholesale, so never edit an installed copy — per-project rules belong in that repo's `AGENTS.md`. Anything that legitimately differs per project (quality-gate commands, language-specific checks) stays in `agents-instructions/` instead.
+
+Install from the GitHub source, never a local path: `skills-lock.json` records the source verbatim, and a local path is machine-specific.
+
+## Reusable Workflows
+
+- [`skills-drift.yml`](../.github/workflows/skills-drift.yml) - Fails CI when a vendored skill differs from upstream, or when `skills-lock.json` is missing or records a local install source. Call it from a consuming repo:
+
+  ```yaml
+  jobs:
+    skills-drift:
+      uses: web3web4/.github/.github/workflows/skills-drift.yml@main
   ```
-
-  Installs to `.agents/skills/` (shared by GitHub Copilot, Codex, Cursor, Gemini CLI, Cline, Zed, Amp, OpenCode). Refresh with `npx skills update execution-plans-workflow`. The skill is project-agnostic — updates overwrite it, so never edit the installed copy. Per-project settings live in that repo's `AGENTS.md`.
 
 ## Principles
 

@@ -101,8 +101,11 @@ _If needed_
 
 ## Companion instruction files
 
-Apply each of these only if the file exists in the project's `agents-instructions/` directory:
+The project's `agents-instructions/` directory holds project-specific quality gates. Apply each only if the file exists there — their contents are written per project, so never assume the wording:
 
 - **`implementation-checklist.md`** — for implementation work, include its checklist in your plan.
-- **`prompt-authoring-guide.md`** — follow it when writing or reviewing prompts for major work.
 - **`post-implementation-checklist.md`** — follow it after completing work.
+
+## Related skills
+
+- **`prompt-authoring-guide`** — follow it when writing or reviewing prompts for major work. If it is not installed in this project, add it with `npx skills add web3web4/.github --skill prompt-authoring-guide --copy -a github-copilot -y`.

@@ -5,6 +5,8 @@ Static instruction files for AI agents working on this project. These are refere
 > `agents-instructions/` = **static how-to** (read-only reference).
 > `execution-plans/` = **dynamic work output** (kanban-tracked tasks).
 
+These files are **project-specific by design**. Copy them from the org templates as a starting point, then rewrite them for this project's language, stack, and scripts. Content that is identical across every project does not belong here — it belongs in a shared skill.
+
 ## Index
 
 | File                               | Purpose                                       | When to read                                                     |
@@ -12,7 +14,15 @@ Static instruction files for AI agents working on this project. These are refere
 | `architecture-reference.md`        | Tech stack, patterns, architectural decisions | Tasks involving stack choices, new dependencies, or architecture |
 | `implementation-checklist.md`      | Quality gates for implementation plans        | Include in artifact plans for features, fixes, refactors         |
 | `post-implementation-checklist.md` | Closing checklist after work is done          | After implementation is complete and code is committed           |
-| `prompt-authoring-guide.md`        | How to write and review task prompts          | When authoring or reviewing prompts for major work               |
+
+## Shared skills (not in this folder)
+
+Project-agnostic guidance lives in `.agents/skills/`, installed from [`web3web4/.github`](https://github.com/web3web4/.github) with `npx skills`. Never edit an installed skill — updates overwrite it.
+
+| Skill                      | Purpose                                                |
+| -------------------------- | ------------------------------------------------------ |
+| `execution-plans-workflow` | Folder lifecycle, naming convention, artifact template |
+| `prompt-authoring-guide`   | How to write and review handoff prompts                |
 
 ## Adding a New Instruction File
 
