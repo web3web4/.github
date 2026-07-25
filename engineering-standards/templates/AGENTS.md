@@ -40,86 +40,15 @@ See [`agents-instructions/architecture-reference.md`](agents-instructions/archit
 
 When planning complex tasks, investigating bugs, or leaving context for future sessions, use the `execution-plans/` directory. **Skip this for trivial, single-step changes** — not every task needs an artifact.
 
-### Directory Structure & Lifecycle
+Artifacts live at `execution-plans/[status]/[category]/`, where status is `todo`/`doing`/`done` and category is `features`/`fixes`/`analysis`. <!-- Documentation projects: use drafting/revisions/analysis -->
 
-The directory is structured around a kanban-style lifecycle, categorized by the type of work:
-
-`execution-plans/[status]/[category]/`
-
-- **[status]**: `todo/`, `doing/`, `done/`
-- **[category]**: `features/`, `fixes/`, `analysis/` — the standard categories. Add others only when these three don't fit.
-
-**`todo/` scope rules:**
-
-- `todo/[category]/` — Items to work on during the **current project phase**.
-- `todo/deferred/` — Items intentionally deferred to a **future phase**. Not picked up until the project advances to that phase. Files here are not categorized into subfolders.
-
-**Workflow Rules:**
-
-> The status folders track **active implementation**, not the Markdown document. `doing/` = actively writing code. `done/` = code implemented, verified, and committed.
-
-1. **New Request / Planning**: Create (or keep) the markdown file in `todo/[category]/`. Write plans, checklists, and context here. A fully-planned item stays in `todo/` until implementation begins.
-2. **Starting Implementation**: Move the file to `doing/[category]/` when you begin writing code.
-3. **Completion**: Once code is fully implemented, verified, and committed, move the file to `done/[category]/`.
+**Before you create, move, or complete an artifact, read the [`execution-plans-workflow` skill](.agents/skills/execution-plans-workflow/SKILL.md).** It defines the folder lifecycle, the naming convention, the required file structure, and the checklists to include. The skill is shared across repos and installed with `npx skills` — do not edit it in place; project-specific rules belong in this file.
 
 ### Proactive Filing
 
 If you notice anything worth noting during unrelated work (bugs, ideas, patterns, insights), append your thoughts to `execution-plans/todo/scratch.md` and move on. Don't create artifacts or backlog entries mid-task — stay focused.
 
 > `todo/` is a passive backlog. **Never** autonomously pick up items from it — only work on them when the user explicitly asks.
-
-### Stale Work
-
-If you find items in `doing/` that appear outdated or abandoned, move them back to `todo/` (preserving all notes) or forward to `done/` with an `## Outcome: Canceled — [reason]` note. Ask the user if unsure.
-
-### Naming Convention
-
-Use this format: `YYYY-MM-DD-HHmm-[title].md`, e.g. `2026-03-01-1430-fix-auth-redirect.md`. Always write dates with time in 24-hour format (e.g. `2026-03-24 14:30`).
-
-One file per task. Plans, progress, and outcomes all live inside the same file using the structure below.
-
-### Artifact File Structure
-
-Every artifact file must follow this layout:
-
-```markdown
----
-created: YYYY-MM-DD HH:mm
-created_by: [LLM name and version]
-edits:
-  - date: YYYY-MM-DD HH:mm
-    author: [LLM name and version]
----
-
-## Context
-
-[Concisely: why this task exists]
-
-## Plan
-
-- [ ] Step 1
-- [ ] Step 2
-
-...
-
----
-
-## Outcome
-
-[What was done and why — keep it concise]
-
-### Notes
-
-_If needed_
-
-[Trade-offs, deferred work, follow-ups]
-```
-
-- Fill `Context` and `Plan` while the file is in `todo/`.
-- Fill `Outcome` when moving to `done/`. Check off plan items as you go.
-- For implementation work, include the checklist from [`agents-instructions/implementation-checklist.md`](agents-instructions/implementation-checklist.md) in your plan.
-- For writing or reviewing prompts for major work, follow [`agents-instructions/prompt-authoring-guide.md`](agents-instructions/prompt-authoring-guide.md).
-- After completing work, follow the checklist in [`agents-instructions/post-implementation-checklist.md`](agents-instructions/post-implementation-checklist.md).
 
 ## Communication & Reasoning Standards
 

@@ -12,6 +12,18 @@ This directory contains company-wide engineering standards and patterns. These s
 - [AGENTS-init.md](templates/AGENTS-init.md) - One-time setup guide: fill in AGENTS.md, scaffold `execution-plans/`, and configure tooling. Delete after setup.
 - [agents-instructions/](templates/agents-instructions/) - Companion instruction files referenced by AGENTS.md: architecture reference, implementation checklist, post-implementation checklist, and prompt authoring guide.
 
+## Skills
+
+Installable agent skills, shared across repos via the [`skills` CLI](https://github.com/vercel-labs/skills).
+
+- [`execution-plans-workflow`](../skills/execution-plans-workflow/SKILL.md) - Mechanics of the `execution-plans/` task-artifact system: folder lifecycle, naming convention, artifact template.
+
+  ```bash
+  npx skills add web3web4/.github --skill execution-plans-workflow --copy -a github-copilot -y
+  ```
+
+  Installs to `.agents/skills/` (shared by GitHub Copilot, Codex, Cursor, Gemini CLI, Cline, Zed, Amp, OpenCode). Refresh with `npx skills update execution-plans-workflow`. The skill is project-agnostic — updates overwrite it, so never edit the installed copy. Per-project settings live in that repo's `AGENTS.md`.
+
 ## Principles
 
 1. **Follow Industry Standards**: Always prefer common, well-established community conventions over custom in-house solutions. Don't reinvent the wheel.
