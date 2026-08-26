@@ -28,7 +28,8 @@ If this project is **not a software development repo** (e.g., documentation, res
 - Set `## Project Type` in `AGENTS.md` to the appropriate value.
 - **Skip** steps 2 (architecture-reference), 5 (dotenv-cli), and the quality-gate items in the Checklist. Or replace them with an equivalent/similar step(s), if applicable.
 - **Keep**: `AGENTS.md`, the shared skills (step 3), the skills-drift CI check (step 4), and the `execution-plans/` scaffold. Set the categories in `AGENTS.md` to `drafting`/`revisions`/`analysis`.
-- **Delete** `agents-instructions/implementation-checklist.md`, `agents-instructions/post-implementation-checklist.md`, and `agents-instructions/architecture-reference.md` — or replace with the equivalent/similar file(s), if applicable. If nothing is left, delete the `agents-instructions/` folder.
+- **Delete** `agents-instructions/architecture-reference.md` — or replace it with the equivalent file for this project. If nothing is left, delete the `agents-instructions/` folder.
+- The implementation quality bar in the `execution-plans-workflow` skill is written for code. Replace it for this project by putting the rules that actually apply — sourcing, accuracy, review — under `Development Rules` in `AGENTS.md`.
 
 ---
 
@@ -39,6 +40,10 @@ Replace the `...` placeholders in `AGENTS.md` with your project's actual info:
 - Project Overview (name, description, apps/packages)
 - Project Status
 - Development Rules (especially Testing strategy)
+- Commands — the quality gates. The template ships an example for a TS/pnpm stack; replace it with this project's actual commands. The `execution-plans-workflow` skill sends the agent here to find them, so a section left as the example (or emptied out) means the gates never run.
+- Git — the base branch and the diff-review command, with this project's lockfile and generated paths excluded.
+
+The skill owns the shared quality bar and the completion procedure. `AGENTS.md` supplies only what differs per project: category names, language and stack rules, commands, and git conventions. Anything you write in `Development Rules` becomes a checkbox the agent adds to its plan, so keep those rules specific and testable.
 
 Remove the `> **Setup guide:**` line from the top of `AGENTS.md` when done.
 
@@ -57,7 +62,7 @@ Copy the `agents-instructions/` folder from the templates into your repo root. T
   - **API Design**: All endpoints validated with Zod. Return typed responses.
   ```
 
-- The other files (`implementation-checklist.md`, `post-implementation-checklist.md`) are **starting points, not drop-ins**. Rewrite their contents for this project's language, stack, and script names — a Python CLI and a Next.js monorepo should not share the same quality gates.
+Keep this folder small. It holds deep reference material read on demand, not rules the agent needs every session — those go in `AGENTS.md`. Do not add implementation or completion checklists here; the `execution-plans-workflow` skill owns both.
 
 > The `execution-plans/` workflow mechanics and the prompt authoring guide are **not** copied into `agents-instructions/`. They are project-agnostic and installed as shared skills in step 3.
 
@@ -118,14 +123,13 @@ No need to add `.gitkeep`.
 
 ## Checklist
 
-- [ ] Filled in AGENTS.md (Project Overview, Project Status, Project Type, Development Rules)
+- [ ] Filled in AGENTS.md (Project Overview, Project Status, Project Type, Development Rules, Commands, Git)
 - [ ] _(dev only)_ Copied and filled in `agents-instructions/architecture-reference.md` (Tech Stack, Patterns, Arch Decisions)
-- [ ] _(dev only)_ Rewrote `agents-instructions/implementation-checklist.md` and `post-implementation-checklist.md` for this project's stack
 - [ ] Installed the shared skills and committed `.agents/skills/` + `skills-lock.json`
 - [ ] Added `.github/workflows/skills-drift.yml`
 - [ ] _(Claude Code projects)_ Pointed `CLAUDE.md` at the `.agents/skills/` paths
 - [ ] _(dev only)_ Installed `dotenv-cli` and updated app scripts
-- [ ] _(non-dev)_ Deleted, edit and/or replace dev-only `agents-instructions/` files (architecture-reference, implementation-checklist, post-implementation-checklist)
+- [ ] _(non-dev)_ Deleted or replaced the dev-only `agents-instructions/` files, and rewrote `Development Rules` for this project's kind of work
 - [ ] Scaffolded `execution-plans/` directory
 - [ ] Removed the "Setup guide" line from the top of AGENTS.md
 - [ ] Deleted this file

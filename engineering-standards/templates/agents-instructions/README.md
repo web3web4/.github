@@ -9,29 +9,28 @@ These files are **project-specific by design**. Copy them from the org templates
 
 ## Index
 
-| File                               | Purpose                                       | When to read                                                     |
-| ---------------------------------- | --------------------------------------------- | ---------------------------------------------------------------- |
-| `architecture-reference.md`        | Tech stack, patterns, architectural decisions | Tasks involving stack choices, new dependencies, or architecture |
-| `implementation-checklist.md`      | Quality gates for implementation plans        | Include in artifact plans for features, fixes, refactors         |
-| `post-implementation-checklist.md` | Closing checklist after work is done          | After implementation is complete and code is committed           |
+| File                        | Purpose                                       | When to read                                                     |
+| --------------------------- | --------------------------------------------- | ---------------------------------------------------------------- |
+| `architecture-reference.md` | Tech stack, patterns, architectural decisions | Tasks involving stack choices, new dependencies, or architecture |
 
 ## Shared skills (not in this folder)
 
 Project-agnostic guidance lives in `.agents/skills/`, installed from [`web3web4/.github`](https://github.com/web3web4/.github) with `npx skills`. Never edit an installed skill — updates overwrite it.
 
-| Skill                      | Purpose                                                |
-| -------------------------- | ------------------------------------------------------ |
-| `execution-plans-workflow` | Folder lifecycle, naming convention, artifact template |
-| `prompt-authoring-guide`   | How to write and review handoff prompts                |
+| Skill                      | Purpose                                                                             |
+| -------------------------- | ------------------------------------------------------------------------------------ |
+| `execution-plans-workflow` | The unified task process: plan, folder lifecycle, implementation bar, completion     |
+| `prompt-authoring-guide`   | How to write and review handoff prompts                                              |
+
+The implementation and completion checklists live in `execution-plans-workflow`, not here. This project's variations on them belong in [`AGENTS.md`](../AGENTS.md) under `Development Rules`, `Commands`, and `Git`.
 
 ## Adding a New Instruction File
 
 Whether you're a human or an agent, follow these steps:
 
-1. **Confirm the need.** Does the content belong here (static, reusable instructions for agents)? If it's task-specific or ephemeral, it belongs in `execution-plans/` instead.
+1. **Confirm the need.** Does the content belong here (static, reusable reference an agent reads on demand)? If it's task-specific or ephemeral, it belongs in `execution-plans/` instead. If it's a rule the agent must follow every session, it belongs in [`AGENTS.md`](../AGENTS.md). If it's an implementation or completion checklist, it belongs in the `execution-plans-workflow` skill — not here.
 
 2. **Name the file descriptively.** Use lowercase kebab-case. The name should be self-explanatory without needing to open the file:
-   - Checklists: `[scope]-checklist.md` (e.g., `bugfix-checklist.md`, `planning-review-checklist.md`)
    - References: `[topic]-reference.md` (e.g., `architecture-reference.md`)
    - Guides: `[topic]-guide.md` (e.g., `scratch-guide.md`)
 
@@ -39,6 +38,6 @@ Whether you're a human or an agent, follow these steps:
 
 4. **Register the file.** Update both:
    - This `README.md` — add a row to the Index table above.
-   - [`AGENTS.md`](../AGENTS.md) — add a reference where agents will need it (e.g., in Development Rules, Artifact File Structure, or a new section as appropriate).
+   - [`AGENTS.md`](../AGENTS.md) — add a reference where agents will need it, saying when to read the file.
 
 5. **Keep it focused.** One file = one concern. If a file grows to cover two distinct topics, split it.

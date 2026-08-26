@@ -10,7 +10,7 @@ This directory contains company-wide engineering standards and patterns. These s
 
 - [AGENTS.md Template](templates/AGENTS.md) - Boilerplate for giving AI coding agents instant context on a repo's architecture, rules, and workflows.
 - [AGENTS-init.md](templates/AGENTS-init.md) - One-time setup guide: fill in AGENTS.md, scaffold `execution-plans/`, and configure tooling. Delete after setup.
-- [agents-instructions/](templates/agents-instructions/) - Companion instruction files referenced by AGENTS.md: architecture reference, implementation checklist, post-implementation checklist. These are **starting points to rewrite per project**, not drop-ins.
+- [agents-instructions/](templates/agents-instructions/) - Companion reference files reads on demand by AGENTS.md, currently the architecture reference. These are **starting points to rewrite per project**, not drop-ins.
 
 ## Skills
 
@@ -18,7 +18,7 @@ Project-agnostic agent guidance, shared across repos via the [`skills` CLI](http
 
 | Skill                                                                     | Purpose                                                                                                           |
 | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| [`execution-plans-workflow`](../skills/execution-plans-workflow/SKILL.md) | Mechanics of the `execution-plans/` task-artifact system: folder lifecycle, naming convention, artifact template. |
+| [`execution-plans-workflow`](../skills/execution-plans-workflow/SKILL.md) | The unified process for non-trivial tasks: plan, folder lifecycle, implementation quality bar, completion.       |
 | [`prompt-authoring-guide`](../skills/prompt-authoring-guide/SKILL.md)     | How to write and review handoff prompts that instruct a fresh agent session to produce a plan.                    |
 
 ```bash
@@ -30,7 +30,7 @@ npx skills add web3web4/.github \
 
 Installs to `.agents/skills/` (shared by GitHub Copilot, Codex, Cursor, Gemini CLI, Antigravity, Cline, Zed, Amp, OpenCode). Refresh with `npx skills update`. Commit `.agents/skills/` and `skills-lock.json`.
 
-**Skills carry no project-specific content.** Updates overwrite them wholesale, so never edit an installed copy — per-project rules belong in that repo's `AGENTS.md`. Anything that legitimately differs per project (quality-gate commands, language-specific checks) stays in `agents-instructions/` instead.
+**Skills carry no project-specific content.** Updates overwrite them wholesale, so never edit an installed copy. A skill defines the process; the project defines the details. Anything that legitimately differs per project — quality-gate commands, language-specific checks, git conventions — goes in that repo's `AGENTS.md` under `Development Rules`, `Commands`, and `Git`.
 
 Install from the GitHub source, never a local path: `skills-lock.json` records the source verbatim, and a local path is machine-specific.
 
