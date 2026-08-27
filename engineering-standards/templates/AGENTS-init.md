@@ -27,9 +27,18 @@ If this project is **not a software development repo** (e.g., documentation, res
 
 - Set `## Project Type` in `AGENTS.md` to the appropriate value.
 - **Skip** steps 2 (architecture-reference), 5 (dotenv-cli), and the quality-gate items in the Checklist. Or replace them with an equivalent/similar step(s), if applicable.
-- **Keep**: `AGENTS.md`, the shared skills (step 3), the skills-drift CI check (step 4), and the `execution-plans/` scaffold. Set the categories in `AGENTS.md` to `drafting`/`revisions`/`analysis`.
+- **Keep**: `AGENTS.md`, the shared skills (step 3), the skills-drift CI check (step 4), and the `task-plans/` scaffold. Set the categories in `AGENTS.md` to `drafting`/`revisions`/`analysis`.
 - **Delete** `agents-instructions/architecture-reference.md` — or replace it with the equivalent file for this project. If nothing is left, delete the `agents-instructions/` folder.
-- The implementation quality bar in the `execution-plans-workflow` skill is written for code. Replace it for this project by putting the rules that actually apply — sourcing, accuracy, review — under `Development Rules` in `AGENTS.md`.
+- The implementation quality bar in the `task-plans` skill is written for code. Replace it for this project by putting the rules that actually apply — sourcing, accuracy, review — under `Development Rules` in `AGENTS.md`.
+
+_Optional starter for regulatory, legal, or fact-sensitive documentation projects — adapt or drop what doesn't apply:_
+
+- **No-Invention Rule (HARD RULE)**: Do not write any fact, number, date, name, citation, commitment, or timing claim that the user has not explicitly provided, that is not already in this repository, or that cannot be cited or verified. Replace an unverified claim with a `<!-- TODO (author): verify and cite source -->` placeholder instead of guessing.
+- **Source-Comment Rule**: Every factual claim, statistic, date, or third-party statement gets an inline comment recording where it came from: `<!-- source: <URL or file path or "user (YYYY-MM-DD)">; verified YYYY-MM-DD by <agent> -->`.
+- **Draft-status marker**: Documents are working drafts until marked `[FINAL]`.
+- **Expert review required**: State the applicable professional review this project needs before external submission (legal, compliance, technical) and who must perform it.
+
+If the workspace has a document-driven workflow (a form, a checklist, a build pipeline), add a short numbered `## How This Workspace Works` section to `AGENTS.md` describing the operating loop, not just the file list.
 
 ---
 
@@ -40,10 +49,10 @@ Replace the `...` placeholders in `AGENTS.md` with your project's actual info:
 - Project Overview (name, description, apps/packages)
 - Project Status
 - Development Rules (especially Testing strategy)
-- Commands — the quality gates. The template ships an example for a TS/pnpm stack; replace it with this project's actual commands. The `execution-plans-workflow` skill sends the agent here to find them, so a section left as the example (or emptied out) means the gates never run.
+- Commands — the quality gates. The template ships an example for a TS/pnpm stack; replace it with this project's actual commands. The `task-plans` skill sends the agent here to find them, so a section left as the example (or emptied out) means the gates never run. If the project has non-quality-gate dev workflows worth documenting (cold-start scripts, environment resets, scoped per-app commands, single-test invocation), list them above the quality gates in their own subsection.
 - Git — the base branch and the diff-review command, with this project's lockfile and generated paths excluded.
 
-The skill owns the shared quality bar and the completion procedure. `AGENTS.md` supplies only what differs per project: category names, language and stack rules, commands, and git conventions. Anything you write in `Development Rules` becomes a checkbox the agent adds to its plan, so keep those rules specific and testable.
+The skill owns the shared quality bar and the completion procedure. `AGENTS.md` supplies only what differs per project: category names, language and stack rules, commands, and git conventions. Anything you write in `Development Rules` becomes a checkbox the agent adds to its plan, so keep those rules specific and testable. If the project has 2+ recurring task types with different rules (e.g. drafting different document kinds, or working in different app layers), add a `### When doing X` subsection under `Development Rules` for each, instead of one long generic list.
 
 Remove the `> **Setup guide:**` line from the top of `AGENTS.md` when done.
 
@@ -62,15 +71,15 @@ Copy the `agents-instructions/` folder from the templates into your repo root. T
   - **API Design**: All endpoints validated with Zod. Return typed responses.
   ```
 
-Keep this folder small. It holds deep reference material read on demand, not rules the agent needs every session — those go in `AGENTS.md`. Do not add implementation or completion checklists here; the `execution-plans-workflow` skill owns both.
+Keep this folder small. It holds deep reference material read on demand, not rules the agent needs every session — those go in `AGENTS.md`. Do not add implementation or completion checklists here; the `task-plans` skill owns both.
 
-> The `execution-plans/` workflow mechanics and the prompt authoring guide are **not** copied into `agents-instructions/`. They are project-agnostic and installed as shared skills in step 3.
+> The `task-plans/` workflow mechanics and the prompt authoring guide are **not** copied into `agents-instructions/`. They are project-agnostic and installed as shared skills in step 3.
 
 ## 3. Install the shared skills
 
 ```bash
 npx skills add web3web4/.github \
-  --skill execution-plans-workflow \
+  --skill task-plans \
   --skill prompt-authoring-guide \
   --copy -a github-copilot -y
 ```
@@ -110,16 +119,20 @@ pnpm add -wD dotenv-cli
 
 Adjust the relative path (`../../`) based on app depth. See [env-loading standard](https://github.com/web3web4/.github/blob/main/engineering-standards/env-loading.md).
 
-## 6. Scaffold execution-plans
+## 6. Scaffold task-plans
 
 ```bash
-mkdir -p execution-plans/{todo,doing,done}/{fixes,features,analysis}
-mkdir -p execution-plans/todo/deferred
-mkdir -p execution-plans/others/prompts
-touch execution-plans/todo/scratch.md
+mkdir -p task-plans/{todo,doing,done}/{fixes,features,analysis}
+mkdir -p task-plans/todo/deferred
+mkdir -p task-plans/others/prompts
+touch task-plans/todo/scratch.md task-plans/todo/backlog.md
 ```
 
 No need to add `.gitkeep`.
+
+## 7. Optional: README.md hints
+
+[`templates/README.md`](README.md) has a short list of non-exclusive, optional sections (a pointer to `AGENTS.md`, a status badge, a quick-start link) worth adding to this project's existing `README.md` for human readers. Copy only what fits — it is not a drop-in replacement.
 
 ## Checklist
 
@@ -129,7 +142,8 @@ No need to add `.gitkeep`.
 - [ ] Added `.github/workflows/skills-drift.yml`
 - [ ] _(Claude Code projects)_ Pointed `CLAUDE.md` at the `.agents/skills/` paths
 - [ ] _(dev only)_ Installed `dotenv-cli` and updated app scripts
+- [ ] _(optional)_ Applied relevant `templates/README.md` hints to this project's README.md
 - [ ] _(non-dev)_ Deleted or replaced the dev-only `agents-instructions/` files, and rewrote `Development Rules` for this project's kind of work
-- [ ] Scaffolded `execution-plans/` directory
+- [ ] Scaffolded `task-plans/` directory
 - [ ] Removed the "Setup guide" line from the top of AGENTS.md
 - [ ] Deleted this file

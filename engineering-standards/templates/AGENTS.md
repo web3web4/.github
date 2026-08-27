@@ -9,6 +9,8 @@
 
 - **[app/package]** — ...
 
+<!-- Optional: for repos with many files, non-obvious naming, or a structure that matters for the workflow (e.g. doc build order), add a directory tree here. Skip it for small or self-explanatory repos. -->
+
 ## Project Status
 
 ...
@@ -23,28 +25,37 @@ See [`agents-instructions/architecture-reference.md`](agents-instructions/archit
 
 ## Development Rules
 
-<!-- This project's variations on the execution-plans-workflow skill's implementation quality bar. Keep them specific: language, validation library, test runner, and rules unique to this codebase. -->
+<!-- This project's variations on the task-plans skill's implementation quality bar. Keep them specific: language, validation library, test runner, and rules unique to this codebase. -->
 
 - **Code Quality**: Strict TypeScript. No `any` types. Use `zod` for all runtime boundary validations (APIs, forms).
 - **Shared types**: A type that crosses the client–server boundary is declared once in a shared package. Never redeclare it per app.
 - **UI and accessibility**: Mobile-first and touch-accessible. No hover-only control and no essential data hidden in a tooltip. Interactive elements have large touch targets and a visible focus state.
+- **Comment hygiene**: No comments unless the WHY is non-obvious. No "removed X" markers, no "used by Y" hints, no restating what the code does.
+- **No backward compatibility** _(state this only if true)_: This project has no external consumers or published interface yet. Never add shims, compat layers, aliasing, or transitional adapters — break interfaces freely and always implement the cleanest design over preserving the existing one.
+- **No legacy context in docs**: Documentation should reflect only the current state of the system. Do not reference deprecated features, past architectures, or how things "used to work." Write for someone brand new to the codebase.
 - **Documentation Location**:
   - Persistent architecture/API docs → `docs/`
-  - Ephemeral agent planning/logs → `execution-plans/` (do not gitignore)
-  - All other `.md` files should only be created inside `execution-plans/` or `docs/` unless the task explicitly requires otherwise.
+  - Static agent guidance → `agents-instructions/`
+  - Ephemeral agent planning/logs → `task-plans/` (do not gitignore)
+  - All other `.md` files should only be created inside `task-plans/` or `docs/` unless the task explicitly requires otherwise.
 - **Testing**: ...
+- **Spec** _(if this project has a formal spec)_: Check `[path]` for the source of truth on requirements.
 - **Specs vs. code**: If code deviates from a spec but the code is better, propose updating the spec — don't "fix" working code.
 - **Test failures**: Investigate production code first before assuming the test is wrong.
+- **Template/asset parity** _(if this repo ships assets or templates consumed by other repos)_: Name the consuming repos and their manifests/config here, and verify any change to a shared asset against each of them before merging.
 
-## AI Agent Workflow (The "execution-plans" system)
+### Non-negotiables
 
-Plans, task breakdowns, investigation notes, and progress logs are not chat output. They are Markdown artifacts under `execution-plans/[status]/[category]/`. Status is `todo`/`doing`/`done`. This project's categories are `features`, `fixes`, and `analysis`. <!-- Documentation projects: use drafting/revisions/analysis -->
+<!-- Reserve this subsection for the 2-5 rules where a violation causes a production bug, an outage, or silent data loss — not general style preferences. Everything else stays in Development Rules above. -->
 
-- **Non-trivial work gets an artifact, and the skill tells you how to write it**: Multi-step tasks, bug investigations, and anything a future session needs as context get exactly one artifact. Skip it for trivial, single-step changes. The moment you decide an artifact is needed — or you are about to plan a task, write into an artifact, move one between status folders, or mark one done — read [`execution-plans-workflow`](.agents/skills/execution-plans-workflow/SKILL.md) in full. It owns the folder lifecycle, the naming convention, the required file structure, and the checklists. Do not work from memory and do not skim: if you have not opened the file this session, you do not know the rules. It is installed by `npx skills` and shared across repos — never edit it in place, and put project-specific rules in this file instead.
+## AI Agent Workflow (The "task-plans" system)
+
+Plans, task breakdowns, investigation notes, and progress logs are not chat output. They are Markdown artifacts under `task-plans/[status]/[category]/`. Status is `todo`/`doing`/`done`. This project's categories are `features`, `fixes`, and `analysis`. <!-- Documentation projects: use drafting/revisions/analysis -->
+
+- **The skill owns the process — read it before you act on it**: Before planning a non-trivial task, creating, moving, or completing an artifact, or resuming earlier work, read [`task-plans`](.agents/skills/task-plans/SKILL.md) in full. Its Procedure 0 decides whether the task needs an artifact. Do not work from memory and do not skim: if you have not opened the file this session, you do not know the rules. It is installed by `npx skills` and shared across repos — never edit it in place; project-specific rules belong in this file.
 - **The plan goes in the artifact, not in the chat reply**: When the user asks for a plan, the deliverable is the artifact file. Reply with a link to it and a short summary.
-- **Keep the artifact's status folder current**: Move the file when you start the work and again when the work is complete. The skill defines how.
-- **Do not proactively scan `execution-plans/` for work** — not `todo/`, not `doing/`. The user attaches or names the artifact when one is relevant, including when resuming unfinished work from a previous session. `todo/` is a passive backlog — work on an item only when the user asks for that item.
-- **Park stray findings in `scratch.md`**: Notice a bug, idea, reusable pattern, or architectural insight while doing unrelated work? Append one short entry to `execution-plans/todo/scratch.md` and continue the current task. Do not investigate it, and do not open an artifact for it.
+- **Never scan `task-plans/` for work** — not `todo/`, not `doing/`. The user attaches or names the artifact when one is relevant. If the task continues earlier work and no artifact was attached, named, or already identified in this conversation, ask the user to point to it — do not search for it, and do not create a duplicate.
+- **Park stray findings in `scratch.md`**: Notice a bug, idea, reusable pattern, or architectural insight while doing unrelated work? Append one short entry to `task-plans/todo/scratch.md` and continue the current task. Do not investigate it, and do not open an artifact for it.
 
 ## Reasoning & Pushback
 
@@ -54,7 +65,7 @@ Plans, task breakdowns, investigation notes, and progress logs are not chat outp
 
 ## Writing Style
 
-Applies to everything you write — chat replies, docs, code comments, commit messages, and `execution-plans/` artifacts.
+Applies to everything you write — chat replies, docs, code comments, commit messages, and `task-plans/` artifacts.
 
 - **Plain English**: Write for non-native readers. One idea per sentence. Prefer the common word (`use` not `utilize`, `about` not `regarding`, `start` not `commence`). No idioms or metaphors. Keep technical and domain terms exact — never simplify `idempotent`, `nonce`, or `RSC` into an approximation.
 - **Direct sentences**: Subject → verb → object, active voice. Avoid passive constructions and long clauses stacked before the subject.

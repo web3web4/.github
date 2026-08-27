@@ -16,7 +16,7 @@ on:
         description: Space-separated skill names to verify.
         required: false
         type: string
-        default: execution-plans-workflow prompt-authoring-guide
+        default: task-plans prompt-authoring-guide
       ref:
         description: Upstream ref in web3web4/.github to compare against.
         required: false

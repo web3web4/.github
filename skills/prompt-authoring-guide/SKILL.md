@@ -1,6 +1,6 @@
 ---
 name: prompt-authoring-guide
-description: How to write and review handoff prompts that instruct a fresh agent session to produce a plan artifact. Use when asked to create, draft, refine, or review a prompt for a task - especially prompts saved under execution-plans/others/prompts/.
+description: How to write and review handoff prompts that instruct a fresh agent session to produce a plan artifact. Use when asked to create, draft, refine, or review a prompt for a task - especially prompts saved under task-plans/others/prompts/.
 ---
 
 # Prompt Authoring Guide
@@ -12,10 +12,10 @@ This skill is shared across repositories and carries no project-specific content
 ## How it works
 
 1. **User asks for a prompt** — e.g., "write a prompt for migrating auth to SIWE" or "let's create a prompt for the smart contract review."
-2. **Create the prompt file immediately** — create the `.md` file in `execution-plans/others/prompts/` as soon as the conversation about a prompt starts. The file will be refined iteratively as scope is discussed.
+2. **Create the prompt file immediately** — create the `.md` file in `task-plans/others/prompts/` as soon as the conversation about a prompt starts. The file will be refined iteratively as scope is discussed.
 3. **Refine** — update the file as the user and agent discuss scope, boundaries, and constraints.
 4. **Review** — user reviews the prompt (optionally with agent-assisted review).
-5. **Handoff** — user pastes the prompt into a fresh agent session. That agent reads it, creates a plan artifact in `execution-plans/`, and waits for approval before writing any code.
+5. **Handoff** — user pastes the prompt into a fresh agent session. That agent reads it, creates a plan artifact in `task-plans/`, and waits for approval before writing any code.
 
 ## Writing the prompt
 
@@ -30,14 +30,14 @@ The prompt scopes the _what_ and _why_. The plan (created by the receiving agent
 
 **Every prompt must end by instructing the receiving agent to:**
 
-1. Create a plan artifact in `execution-plans/` before writing any code.
+1. Create a plan artifact in `task-plans/` before writing any code.
 2. Wait for user approval before starting implementation.
 
 **Length check:** If a prompt exceeds ~80–100 lines, it's likely doing the planning job. Flag it and discuss with the user before trimming.
 
 ## File conventions
 
-- **Location:** `execution-plans/others/prompts/`
+- **Location:** `task-plans/others/prompts/`
 - **Naming:** `YYYY-MM-DD-PROMPT_[TITLE].md` (e.g., `2026-04-05-PROMPT_WALLET_BINDING_AUDIT.md`)
 - **One prompt per file.** Multi-phase work gets one prompt per phase, not one mega-prompt.
 - **Frontmatter:** Include the standard frontmatter when creating the file. Add an `edits` entry when modifying an existing prompt.
@@ -72,4 +72,4 @@ When the user asks to review a prompt:
 
 ## Related
 
-The plan artifact the receiving agent produces is governed by the `execution-plans-workflow` skill — folder lifecycle, naming convention, and required file structure.
+The plan artifact the receiving agent produces is governed by the `task-plans` skill — folder lifecycle, naming convention, and required file structure.

@@ -1,14 +1,15 @@
 ---
-name: execution-plans-workflow
-description: The unified process for non-trivial tasks - planning into an artifact, the implementation quality bar, the completion procedure, and the todo/doing/done folder lifecycle with its naming and file-structure rules. Use when writing a plan, creating or moving an artifact, implementing tracked work, recording an outcome, picking up an artifact the user attached, or filing a note into the backlog.
+name: task-plans
+description: The process for non-trivial tasks - the todo/doing/done artifact lifecycle, the plan template, the implementation quality bar, and the completion procedure. Use when starting or resuming any non-trivial task, deciding whether a task needs a plan artifact, writing a plan, creating or moving an artifact, implementing tracked work, recording an outcome, or filing a note into the backlog.
 ---
 
-# Execution-Plans Workflow
+# Task Plans
 
-A non-trivial task gets **exactly one** Markdown artifact under `execution-plans/` that is structured mostly around a kanban-style lifecycle. This skill is the unified process: how the artifact is written, where it lives, the quality bar the work must meet, and how the task is closed out. Each project varies only the execution details — its category names, its concrete quality checks, and its commands.
+A non-trivial task gets **exactly one** Markdown artifact under `task-plans/` that moves through `todo` → `doing` → `done`. This skill is the unified process: routing the task, writing the artifact, the quality bar the work must meet, and how the task is closed out. Each project varies only the execution details — its category names, its concrete quality checks, and its commands.
 
 Go straight to the procedure that matches what you are about to do:
 
+- Starting or resuming any task → [Procedure 0 — Route](#procedure-0--route-the-task)
 - Writing a plan, or starting a new artifact → [Procedure 1 — Create](#procedure-1--create-an-artifact)
 - Changing an artifact's status → [Procedure 2 — Move](#procedure-2--move-an-artifact)
 - Writing the code or content → [Procedure 3 — Implement](#procedure-3--implement)
@@ -24,6 +25,26 @@ This skill is shared across repositories and is deliberately project-agnostic. I
 
 **Never edit this skill file to record project details.** `npx skills` overwrites it wholesale on update, and CI fails on a local edit. Project configuration belongs in `AGENTS.md`.
 
+## Procedure 0 — Route the task
+
+Run this decision before any planning or implementation. Exactly one row applies:
+
+| Situation                                                                        | Action                                                                                                                                                                                                                            |
+| -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Trivial, single-step change                                                      | No artifact. Do the work directly.                                                                                                                                                                                                |
+| The user attached or named an artifact                                           | Work from that artifact. Verify its plan still matches the code — if it looks outdated, say so and ask ([Procedure 2](#procedure-2--move-an-artifact)). Move it to `doing/` when you start.                                       |
+| New non-trivial task, no artifact                                                | Create one now ([Procedure 1](#procedure-1--create-an-artifact)) before touching code or content.                                                                                                                                 |
+| The task continues earlier work, and no artifact was attached, named, or already identified in this conversation | **Stop and ask the user to point to the artifact.** Do not scan `task-plans/` to find it. Do not create a new one — a duplicate breaks the one-artifact rule. If the user confirms no artifact exists, treat it as a new task. |
+
+A task is **non-trivial** when any of these hold:
+
+- It needs investigation before the approach is clear.
+- It changes more than a couple of files, or takes more than a few steps.
+- It spans sessions, or a future session will need it as context.
+- The user asked for a plan.
+
+When in doubt, treat the task as non-trivial — an artifact is cheap, lost context is not. And `task-plans/` is never a source of work: do not scan `todo/` or `doing/` for something to pick up.
+
 ## Procedure 1 — Create an artifact
 
 1. Choose the status folder: `todo/` if the work has not started, `doing/` if you are starting right now.
@@ -32,6 +53,7 @@ This skill is shared across repositories and is deliberately project-agnostic. I
 4. Name the file `YYYY-MM-DD-HHmm-[short-title].md` — for example `2026-03-01-1430-fix-auth-redirect.md`.
 5. Write the file using the [artifact file template](#artifact-file-template). Fill `Context` and `Plan` now.
 6. If this is implementation work, add the [Procedure 3](#procedure-3--implement) checklist to the `Plan`.
+7. Append one line for the new artifact to `task-plans/todo/backlog.md`: `` `filename.md` [category] [priority] [status] — description ``.
 
 One file per task. Never split one task across two artifacts, and never open a second artifact for a task that already has one.
 
@@ -45,6 +67,7 @@ The status folders track the **work**, not the document.
 | `todo/deferred/`   | Deferred to a future project phase. No category subfolders. Do not pick these up. |
 | `doing/[category]` | Work is happening right now — code being written, content being edited.          |
 | `done/[category]`  | Work is implemented, verified, **and committed**.                                 |
+| `todo/backlog.md`  | One-line index of every artifact currently in `todo/`, so anyone can see what's pending without opening or scanning each file. Kept current by the steps below and in Procedure 1. |
 
 How to move it:
 
@@ -52,6 +75,7 @@ How to move it:
 2. Keep the original timestamp in the filename. It records when the task was opened, not when it moved.
 3. Move it into `doing/` at the moment you start the work.
 4. Move it into `done/` only after the work is verified and committed — not when the code is merely written.
+5. Update `todo/backlog.md` in the same step: remove the artifact's line once it leaves `todo/`, and add it back if an artifact ever returns to `todo/`.
 
 Move an artifact only because its own work changed status. If an artifact you were handed looks outdated, abandoned, or no longer matches the code, say so and ask what to do. Never reclassify or cancel one on your own.
 
@@ -66,14 +90,17 @@ This checklist assumes code. If `AGENTS.md` → `Project Type` is not a software
 - [ ] **Failure handling** — anything that can fail reports failure explicitly. Nothing fails silently and nothing leaves partial output behind. An operation that crosses a network is safe to retry.
 - [ ] **Interface quality** — the surface a person or caller touches (UI, CLI output, API response) gives clear feedback for success, loading, and failure, and stays usable on the smallest supported target.
 - [ ] **Code organization** — domain logic stays separate from framework, transport, and I/O layers. No path or value hardcoded that belongs in configuration.
+- [ ] **Comment hygiene** — a comment exists only when the WHY is non-obvious. No "removed X" markers, no "used by Y" hints, no restating what the next line does.
 - [ ] **Testing** — pure logic and complex mappings have dedicated tests. A test that cannot run in the current environment is skipped explicitly, never quietly passed.
+
+Keep the artifact current while you implement: check off `Plan` items as they finish, and record deviations from the plan the moment they happen — not retroactively at completion. The artifact must always describe what is actually being built.
 
 ## Procedure 4 — Complete
 
 1. **Plan versus implementation.** Walk each `Plan` checkbox and confirm the work matches the intent. Mark finished items `[x]`. Keep any skipped item and record the reason under `Notes` — never delete it.
 2. **Quality gates.** Run the project's quality-gate commands from `AGENTS.md`. Fix every failure before continuing. Skip this step only if the project defines no such commands.
 3. **Diff review.** Read the full diff against the base branch and compare it with the `Plan`. Confirm there are no unintended changes, no debug output left behind, and no disabled lint rules or type escape hatches added without a stated reason.
-4. **Deferred work.** Record skipped plan items and anything left undone in the artifact's `Notes`. Append ideas and findings worth keeping beyond this task to `execution-plans/todo/scratch.md`. Do not create artifacts in `todo/` — the user decides what becomes tracked work.
+4. **Deferred work.** Record skipped plan items and anything left undone in the artifact's `Notes`. Append ideas and findings worth keeping beyond this task to `task-plans/todo/scratch.md`. Do not create artifacts in `todo/` — the user decides what becomes tracked work.
 5. **Knowledge.** If the work revealed a reusable pattern or an architectural decision, record it where `AGENTS.md` says documentation lives.
 6. **Metadata.** Add `issue` and `pr` numbers to the frontmatter if the task has them. Append an `edits` entry if you are not the original author.
 7. **Outcome.** Fill the `Outcome` section.

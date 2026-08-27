@@ -3,7 +3,7 @@
 Static instruction files for AI agents working on this project. These are referenced from [`AGENTS.md`](../AGENTS.md) and read on-demand — not every session.
 
 > `agents-instructions/` = **static how-to** (read-only reference).
-> `execution-plans/` = **dynamic work output** (kanban-tracked tasks).
+> `task-plans/` = **dynamic work output** (kanban-tracked tasks).
 
 These files are **project-specific by design**. Copy them from the org templates as a starting point, then rewrite them for this project's language, stack, and scripts. Content that is identical across every project does not belong here — it belongs in a shared skill.
 
@@ -19,16 +19,16 @@ Project-agnostic guidance lives in `.agents/skills/`, installed from [`web3web4/
 
 | Skill                      | Purpose                                                                             |
 | -------------------------- | ------------------------------------------------------------------------------------ |
-| `execution-plans-workflow` | The unified task process: plan, folder lifecycle, implementation bar, completion     |
+| `task-plans` | The unified task process: plan, folder lifecycle, implementation bar, completion     |
 | `prompt-authoring-guide`   | How to write and review handoff prompts                                              |
 
-The implementation and completion checklists live in `execution-plans-workflow`, not here. This project's variations on them belong in [`AGENTS.md`](../AGENTS.md) under `Development Rules`, `Commands`, and `Git`.
+The implementation and completion checklists live in `task-plans`, not here. This project's variations on them belong in [`AGENTS.md`](../AGENTS.md) under `Development Rules`, `Commands`, and `Git`.
 
 ## Adding a New Instruction File
 
 Whether you're a human or an agent, follow these steps:
 
-1. **Confirm the need.** Does the content belong here (static, reusable reference an agent reads on demand)? If it's task-specific or ephemeral, it belongs in `execution-plans/` instead. If it's a rule the agent must follow every session, it belongs in [`AGENTS.md`](../AGENTS.md). If it's an implementation or completion checklist, it belongs in the `execution-plans-workflow` skill — not here.
+1. **Confirm the need.** Does the content belong here (static, reusable reference an agent reads on demand)? If it's task-specific or ephemeral, it belongs in `task-plans/` instead. If it's a rule the agent must follow every session, it belongs in [`AGENTS.md`](../AGENTS.md). If it's an implementation or completion checklist, it belongs in the `task-plans` skill — not here.
 
 2. **Name the file descriptively.** Use lowercase kebab-case. The name should be self-explanatory without needing to open the file:
    - References: `[topic]-reference.md` (e.g., `architecture-reference.md`)

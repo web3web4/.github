@@ -9,8 +9,9 @@ This directory contains company-wide engineering standards and patterns. These s
 ## Templates
 
 - [AGENTS.md Template](templates/AGENTS.md) - Boilerplate for giving AI coding agents instant context on a repo's architecture, rules, and workflows.
-- [AGENTS-init.md](templates/AGENTS-init.md) - One-time setup guide: fill in AGENTS.md, scaffold `execution-plans/`, and configure tooling. Delete after setup.
+- [AGENTS-init.md](templates/AGENTS-init.md) - One-time setup guide: fill in AGENTS.md, scaffold `task-plans/`, and configure tooling. Delete after setup.
 - [agents-instructions/](templates/agents-instructions/) - Companion reference files reads on demand by AGENTS.md, currently the architecture reference. These are **starting points to rewrite per project**, not drop-ins.
+- [README.md hints](templates/README.md) - Non-exclusive, optional sections to add to a project's existing README.md for human readers. Not a drop-in replacement — copy only what fits.
 
 ## Skills
 
@@ -18,12 +19,12 @@ Project-agnostic agent guidance, shared across repos via the [`skills` CLI](http
 
 | Skill                                                                     | Purpose                                                                                                           |
 | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| [`execution-plans-workflow`](../skills/execution-plans-workflow/SKILL.md) | The unified process for non-trivial tasks: plan, folder lifecycle, implementation quality bar, completion.       |
+| [`task-plans`](../skills/task-plans/SKILL.md)                            | The unified process for non-trivial tasks: plan, folder lifecycle, implementation quality bar, completion.       |
 | [`prompt-authoring-guide`](../skills/prompt-authoring-guide/SKILL.md)     | How to write and review handoff prompts that instruct a fresh agent session to produce a plan.                    |
 
 ```bash
 npx skills add web3web4/.github \
-  --skill execution-plans-workflow \
+  --skill task-plans \
   --skill prompt-authoring-guide \
   --copy -a github-copilot -y
 ```
