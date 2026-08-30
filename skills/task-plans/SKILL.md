@@ -42,6 +42,9 @@ A task is **non-trivial** when any of these hold:
 - It changes more than a couple of files, or takes more than a few steps.
 - It spans sessions, or a future session will need it as context.
 - The user asked for a plan.
+- The deliverable is an assessment: a review, audit, critique, comparison, or gap analysis, even when no file changes come out of it.
+
+An assessment is written down like any other work — into the artifact it assesses when one exists, otherwise a new one — and the chat reply is a link plus a short summary.
 
 When in doubt, treat the task as non-trivial — an artifact is cheap, lost context is not. And `task-plans/` is never a source of work: do not scan `todo/` or `doing/` for something to pick up.
 
