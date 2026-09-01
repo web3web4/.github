@@ -17,3 +17,25 @@ jobs:
     uses: web3web4/.github/.github/workflows/agents-md-check.yml@main
     with:
       verifyScripts: false # no package.json in this repo
+
+  markdownlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lint Markdown
+        run: npx --yes markdownlint-cli2 "**/*.md"
+
+  actionlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download actionlint
+        id: get_actionlint
+        run: bash <(curl -fsSL https://raw.githubusercontent.com/rhysd/actionlint/v1.7.12/scripts/download-actionlint.bash)
+        shell: bash
+
+      - name: Lint GitHub Actions
+        run: ${{ steps.get_actionlint.outputs.executable }} -color
+        shell: bash

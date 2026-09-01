@@ -92,8 +92,9 @@ Constraints:
 - A command that fails today gets reported, not deleted, and not worked around by
   changing unrelated code.
 - A pre-existing standalone `skills-drift.yml` or `agents-md.yml` is not "already
-  compliant" — the current standard is the combined `standards.yml`. Flag it for
-  consolidation and deletion of the old files, per the AGENTS-init Checklist.
+  compliant" — the current standard is the combined `standards.yml`, with both
+  reusable jobs and an `actionlint` job. Flag it for consolidation and deletion of
+  the old files, per the AGENTS-init Checklist.
 - Ask for explicit approval before any git write operation.
 ```
 
@@ -113,7 +114,8 @@ AGENTS-init Checklist against the repo as it stands now.
 Report only substantive drift: a section the template now requires that we lack, a rule
 whose meaning changed, a command under `## Commands` that no longer runs, or a standalone
 `skills-drift.yml`/`agents-md.yml` that should now be one `standards.yml` calling both
-reusable jobs. Ignore wording differences and intentional project-specific content.
+reusable jobs and running `actionlint`. Ignore wording differences and intentional
+project-specific content.
 
 Propose the edits and wait for my approval before applying them.
 ```

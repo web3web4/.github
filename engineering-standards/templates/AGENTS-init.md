@@ -124,11 +124,25 @@ jobs:
     uses: web3web4/.github/.github/workflows/skills-drift.yml@main
   agents-md:
     uses: web3web4/.github/.github/workflows/agents-md-check.yml@main
+
+  actionlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download actionlint
+        id: get_actionlint
+        run: bash <(curl -fsSL https://raw.githubusercontent.com/rhysd/actionlint/v1.7.12/scripts/download-actionlint.bash)
+        shell: bash
+      - name: Lint GitHub Actions
+        run: ${{ steps.get_actionlint.outputs.executable }} -color
+        shell: bash
 ```
 
 `skills-drift` fails if a vendored skill differs from upstream, or if `skills-lock.json` is missing or records a local install source.
 
 `agents-md` fails if `AGENTS.md` is missing, still contains template placeholders, is missing a required section, still references this setup file, or lists a `pnpm <script>` under `## Commands` that does not exist in the root `package.json`. That last check is what stops the quality gates from rotting: the `task-plans` skill sends every agent to `## Commands`, so a stale script name there silently disables the gates.
+
+`actionlint` validates GitHub Actions workflow syntax. The workflow downloads actionlint from its versioned upstream release, so it does not require a project dependency.
 
 Both checks take inputs. Override them only when the project legitimately differs:
 
@@ -161,7 +175,7 @@ In order. The first two unblock every step after them.
 - [ ] Filled in AGENTS.md (Project Overview, Project Status, Project Type, Development Rules, Commands, Git)
 - [ ] Every command listed under `## Commands` exists and was run once to confirm it passes
 - [ ] _(dev only)_ Copied and filled in `agents-instructions/architecture-reference.md` (Tech Stack, Patterns, Arch Decisions)
-- [ ] Added `.github/workflows/standards.yml` with both the `skills-drift` and `agents-md` jobs. And deleted, if previously existed, `skills-drift.yml` and `agents-md.yml`.
+- [ ] Added `.github/workflows/standards.yml` with `skills-drift`, `agents-md`, and `actionlint` jobs. And deleted, if previously existed, `skills-drift.yml` and `agents-md.yml`.
 - [ ] _(Claude Code projects)_ Pointed `CLAUDE.md` at the `.agents/skills/` paths
 - [ ] _(dev only)_ Installed `dotenv-cli` and updated app scripts
 - [ ] _(optional)_ Applied relevant `templates/README.md` hints to this project's README.md

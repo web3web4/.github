@@ -72,13 +72,14 @@ Applies to everything: chat replies, standards, templates, skills, and `task-pla
 
 ## Commands
 
-This repository has no package manifest, so there is no build, test, or typecheck. Markdown lint is the only automated gate.
+This repository has no package manifest, so there is no build, test, or typecheck. Markdown lint and GitHub Actions lint are the automated gates and run in CI.
 
 ```sh
 npx markdownlint-cli2 "<the files you changed>"
+actionlint
 ```
 
-Lint the files you changed, not the whole repository. [`.markdownlint.jsonc`](.markdownlint.jsonc) disables the rules this repository breaks by design, with the reason recorded in the file. Two known findings remain and are deliberate: inline HTML and emphasis-as-heading in `profile/README.md`, and `MD031` in `skills/prompt-authoring-guide/SKILL.md`. Do not fix them as a side effect of an unrelated task, and never reformat `skills/` to satisfy a lint rule.
+Lint the Markdown files you changed, not the whole repository. `actionlint` checks every workflow in `.github/workflows/`. [`.markdownlint.jsonc`](.markdownlint.jsonc) disables the rules this repository breaks by design, with the reason recorded in the file. `profile/README.md` suppresses its intentional inline HTML and emphasis-as-heading rules locally. Never reformat `skills/` to satisfy a lint rule outside a substantive change to that skill.
 
 Before finishing a change to a shipped asset, verify by hand:
 

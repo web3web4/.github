@@ -1,3 +1,5 @@
+<!-- markdownlint-disable-file MD033 -->
+
 # 🌐 Web3Web4
 
 > 🚀 Building the decentralized and intelligent internet
@@ -14,7 +16,7 @@
 
 ### 🔗 Web3 (Blockchain & Decentralization)
 
-**What We Build:**
+#### What We Build
 
 - 🎨 NFT platforms and marketplaces
 - 🏢 Real World Asset (RWA) tokenization platforms — including fractional real estate security tokens
@@ -22,7 +24,7 @@
 - 💰 Token-based gamification
 - 👛 Custom decentralized applications (dApps) and Web3 developer tooling (SDKs)
 
-**How We Build It:**
+#### How We Build It
 
 - 📜 Smart contract development (Solidity, Hardhat)
 - ⛓️ Multi-chain deployment (EVM, TON, NEAR, and others)
@@ -31,14 +33,14 @@
 
 ### 🤖 Web4 (AI & Intelligent Systems)
 
-**What We Build:**
+#### What We Build
 
 - 👁️ Multi-modal text & vision analysis and classification (images, videos, documents)
 - 🎨 AI-powered content generation and design assistance
 - 🎯 AI-powered decision support systems
 - 🤝 AI agents for workflow automation
 
-**How We Build It:**
+#### How We Build It
 
 - 🔌 Integration with OpenAI, Gemini, Claude, Ollama, and other providers
 - 🎯 Multi-provider orchestration for reliability and bias reduction
@@ -102,7 +104,7 @@ _In Active Development — Private Repository_
 
 A production-grade monorepo for **issuing and trading fractional real estate security tokens** on EVM chains.
 
-**Key Features:**
+#### Key Features
 
 - 🏠 Property verification and fractional ownership
 - 🔐 Compliant on-chain investment with wallet-based authentication
@@ -117,7 +119,7 @@ _Pre-Alpha_
 
 **AnalyzicAI** is an umbrella ecosystem of specialized AI-powered analysis tools that leverage multi-agent iterative rethinking consensus (combining **OpenAI GPT**, **Google Gemini**, and **Anthropic Claude**) to deliver bias-reduced, expert-level auditing.
 
-**The Ecosystem:**
+#### The Ecosystem
 
 - 📜 **[SolidicAI](https://solidicai.com)** — Advanced smart contract analysis and security auditing platform.
 - 🖼️ **[UXicAI](https://uxicai.com)** — Intelligent UI/UX design analysis platform providing comprehensive visual and usability feedback.
@@ -138,7 +140,7 @@ _More Details and Big Changes are Coming Soon_
 
 A privacy-first utility for managing sensitive data with **threshold encryption** and end-to-end security, powered by [NuCypher TACo](https://taco.build).
 
-**Key Features:**
+#### Key Features
 
 - 🔐 Client-side threshold encryption (Ferveo, BLS12-381, MPC)
 - 🔑 Time-based access control and address-based permissions

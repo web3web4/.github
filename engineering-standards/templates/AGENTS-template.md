@@ -56,6 +56,7 @@ Plans, task breakdowns, investigation notes, and progress logs are not chat outp
 - **The deliverable is the artifact, not the chat reply**: When the user asks for a plan, review, audit, or analysis, the deliverable is the artifact file. Reply with a link to it and a short summary.
 - **Never scan `task-plans/` for work** — not `todo/`, not `doing/`. The user attaches or names the artifact when one is relevant. If the task continues earlier work and no artifact was attached, named, or already identified in this conversation, ask the user to point to it — do not search for it, and do not create a duplicate.
 - **Park stray findings in `scratch.md`**: Notice a bug, idea, reusable pattern, or architectural insight while doing unrelated work? Append one short entry to `task-plans/todo/scratch.md` and continue the current task. Do not investigate it, and do not open an artifact for it.
+- **Complete verified work**: Move an artifact to `done/` as soon as its plan, validation, and outcome are complete. Do not wait for a commit; Git approval is a separate rule.
 
 ## Reasoning & Pushback
 
@@ -90,6 +91,7 @@ pnpm build              # full turbo build
 pnpm lint:fix           # ESLint fix and report across all packages
 pnpm test               # Vitest tests
 pnpm format             # Prettier formatting that writes to files
+actionlint              # GitHub Actions workflow validation
 ```
 
 For scoped work, narrow the run: `pnpm --filter @[org]/[package] typecheck build lint test`.

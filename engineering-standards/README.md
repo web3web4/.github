@@ -41,7 +41,7 @@ Install from the GitHub source, never a local path: `skills-lock.json` records t
 
 ## Reusable Workflows
 
-Call both from a consuming repo's `.github/workflows/standards.yml`:
+Call the two reusable workflows and add the local `actionlint` job in a consuming repo's `.github/workflows/standards.yml`:
 
 ```yaml
 jobs:
@@ -49,10 +49,22 @@ jobs:
     uses: web3web4/.github/.github/workflows/skills-drift.yml@main
   agents-md:
     uses: web3web4/.github/.github/workflows/agents-md-check.yml@main
+  actionlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download actionlint
+        id: get_actionlint
+        run: bash <(curl -fsSL https://raw.githubusercontent.com/rhysd/actionlint/v1.7.12/scripts/download-actionlint.bash)
+        shell: bash
+      - name: Lint GitHub Actions
+        run: ${{ steps.get_actionlint.outputs.executable }} -color
+        shell: bash
 ```
 
 - [`skills-drift.yml`](../.github/workflows/skills-drift.yml) - Fails when a vendored skill differs from upstream, or when `skills-lock.json` is missing or records a local install source.
 - [`agents-md-check.yml`](../.github/workflows/agents-md-check.yml) - Fails when `AGENTS.md` is missing, still contains template placeholders, lacks a required section, still references `AGENTS-init.md`, or lists a `pnpm <script>` under `## Commands` that no longer exists in the root `package.json`. Inputs: `requiredSections`, `verifyScripts`.
+- `actionlint` - Validates GitHub Actions workflow syntax using a versioned upstream release without adding a project dependency.
 
 The `## Commands` check matters more than it looks. The `task-plans` skill sends every agent session there to find the quality gates, so one stale script name disables the gates for every future task without any other signal.
 
