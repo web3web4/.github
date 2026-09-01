@@ -41,6 +41,7 @@ The prompt scopes the _what_ and _why_. The plan (created by the receiving agent
 - **Naming:** `YYYY-MM-DD-PROMPT_[TITLE].md` (e.g., `2026-04-05-PROMPT_WALLET_BINDING_AUDIT.md`)
 - **One prompt per file.** Multi-phase work gets one prompt per phase, not one mega-prompt.
 - **Frontmatter:** Include the standard frontmatter when creating the file. Add an `edits` entry when modifying an existing prompt.
+
   ```yaml
   ---
   created: YYYY-MM-DD HH:mm

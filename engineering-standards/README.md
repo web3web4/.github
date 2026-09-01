@@ -1,6 +1,6 @@
 # Engineering Standards
 
-This directory contains company-wide engineering standards and patterns. These standards apply across all repositories and teams unless explicitly stated otherwise.
+The company-wide engineering standards, the templates and shared assets a repository adopts to meet them, and the CI that checks it did. These apply across all repositories and teams unless explicitly stated otherwise. Some of what a compliant repo installs — the skills and the reusable workflows — lives at the root of this repository, and is documented here because adopting it is part of the standard.
 
 ## Active Standards
 
@@ -8,7 +8,7 @@ This directory contains company-wide engineering standards and patterns. These s
 
 ## Templates
 
-- [AGENTS.md Template](templates/AGENTS.md) - Boilerplate for giving AI coding agents instant context on a repo's architecture, rules, and workflows.
+- [AGENTS-template.md](templates/AGENTS-template.md) - Boilerplate for giving AI coding agents instant context on a repo's architecture, rules, and workflows. Copy it to the target repo root as `AGENTS.md`.
 - [AGENTS-init.md](templates/AGENTS-init.md) - One-time setup guide: fill in AGENTS.md, scaffold `task-plans/`, and configure tooling. Delete after setup.
 - [agents-instructions/](templates/agents-instructions/) - Companion reference files reads on demand by AGENTS.md, currently the architecture reference. These are **starting points to rewrite per project**, not drop-ins.
 - [README.md hints](templates/README.md) - Non-exclusive, optional sections to add to a project's existing README.md for human readers. Not a drop-in replacement — copy only what fits.

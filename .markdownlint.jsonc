@@ -1,0 +1,10 @@
+{
+  // Prose here is not hard-wrapped, and table cells carry full sentences.
+  // Both rules would fail every file in the repo. See AGENTS.md -> Development Rules.
+  "MD013": false,
+  "MD060": false,
+  // Two file kinds here start below H1 on purpose: templates/README.md is a
+  // copy-paste fragment, and task-plans artifacts open at `## Context`.
+  "MD041": false,
+  "MD024": { "siblings_only": true }
+}

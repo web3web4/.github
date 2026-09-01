@@ -29,11 +29,11 @@ This skill is shared across repositories and is deliberately project-agnostic. I
 
 Run this decision before any planning or implementation. Exactly one row applies:
 
-| Situation                                                                        | Action                                                                                                                                                                                                                            |
-| -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Trivial, single-step change                                                      | No artifact. Do the work directly.                                                                                                                                                                                                |
-| The user attached or named an artifact                                           | Work from that artifact. Verify its plan still matches the code — if it looks outdated, say so and ask ([Procedure 2](#procedure-2--move-an-artifact)). Move it to `doing/` when you start.                                       |
-| New non-trivial task, no artifact                                                | Create one now ([Procedure 1](#procedure-1--create-an-artifact)) before touching code or content.                                                                                                                                 |
+| Situation                                                                                                        | Action                                                                                                                                                                                                                         |
+| ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Trivial, single-step change                                                                                      | No artifact. Do the work directly.                                                                                                                                                                                             |
+| The user attached or named an artifact                                                                           | Work from that artifact. Verify its plan still matches the code — if it looks outdated, say so and ask ([Procedure 2](#procedure-2--move-an-artifact)). Move it to `doing/` when you start.                                    |
+| New non-trivial task, no artifact                                                                                | Create one now ([Procedure 1](#procedure-1--create-an-artifact)) before touching code or content.                                                                                                                              |
 | The task continues earlier work, and no artifact was attached, named, or already identified in this conversation | **Stop and ask the user to point to the artifact.** Do not scan `task-plans/` to find it. Do not create a new one — a duplicate breaks the one-artifact rule. If the user confirms no artifact exists, treat it as a new task. |
 
 A task is **non-trivial** when any of these hold:
@@ -64,12 +64,12 @@ One file per task. Never split one task across two artifacts, and never open a s
 
 The status folders track the **work**, not the document.
 
-| Folder             | Meaning                                                                          |
-| ------------------ | -------------------------------------------------------------------------------- |
-| `todo/[category]`  | Work has not started. A fully-planned item stays here until it does.              |
-| `todo/deferred/`   | Deferred to a future project phase. No category subfolders. Do not pick these up. |
-| `doing/[category]` | Work is happening right now — code being written, content being edited.          |
-| `done/[category]`  | Work is implemented, verified, **and committed**.                                 |
+| Folder             | Meaning                                                                                                                                                                            |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `todo/[category]`  | Work has not started. A fully-planned item stays here until it does.                                                                                                               |
+| `todo/deferred/`   | Deferred to a future project phase. No category subfolders. Do not pick these up.                                                                                                  |
+| `doing/[category]` | Work is happening right now — code being written, content being edited.                                                                                                            |
+| `done/[category]`  | Work is implemented and verified.                                                                                                                                                  |
 | `todo/backlog.md`  | One-line index of every artifact currently in `todo/`, so anyone can see what's pending without opening or scanning each file. Kept current by the steps below and in Procedure 1. |
 
 How to move it:
@@ -77,7 +77,7 @@ How to move it:
 1. Use `mv` (or `git mv`). **Move the single file. Never copy it. Never leave the old file behind.**
 2. Keep the original timestamp in the filename. It records when the task was opened, not when it moved.
 3. Move it into `doing/` at the moment you start the work.
-4. Move it into `done/` only after the work is verified and committed — not when the code is merely written.
+4. Move it into `done/` after the work is verified — not when the code is merely written.
 5. Update `todo/backlog.md` in the same step: remove the artifact's line once it leaves `todo/`, and add it back if an artifact ever returns to `todo/`.
 
 Move an artifact only because its own work changed status. If an artifact you were handed looks outdated, abandoned, or no longer matches the code, say so and ask what to do. Never reclassify or cancel one on your own.
@@ -109,7 +109,7 @@ Keep the artifact current while you implement: check off `Plan` items as they fi
 7. **Outcome.** Fill the `Outcome` section.
 8. **Move.** Move the file to `done/[category]/` using [Procedure 2](#procedure-2--move-an-artifact).
 
-> `done/` requires the work to be committed, and committing requires the user's explicit approval. Ask, then wait. `AGENTS.md` holds the project's git conventions.
+> Move the artifact to `done/` after verification.
 
 ## Artifact file template
 
@@ -154,13 +154,13 @@ _If needed_
 [Trade-offs, deferred work, follow-ups]
 ```
 
-| Section     | Required? | Write it when                                                                                                                            |
-| ----------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| `Context`   | Yes       | Creating the file.                                                                                                                       |
-| `Plan`      | Yes       | Creating the file. Check items off as you go.                                                                                            |
+| Section     | Required? | Write it when                                                                                                                             |
+| ----------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `Context`   | Yes       | Creating the file.                                                                                                                        |
+| `Plan`      | Yes       | Creating the file. Check items off as you go.                                                                                             |
 | `Rationale` | Optional  | Planning, when the approach is not self-evident or rests on deep investigation a reviewer would otherwise miss. Skip it for trivial work. |
-| `Outcome`   | Yes       | Moving the file to `done/`.                                                                                                              |
-| `Notes`     | Optional  | Moving the file to `done/`, for trade-offs, deferred work, and follow-ups.                                                               |
+| `Outcome`   | Yes       | Moving the file to `done/`.                                                                                                               |
+| `Notes`     | Optional  | Moving the file to `done/`, for trade-offs, deferred work, and follow-ups.                                                                |
 
 Dates inside the file use 24-hour format: `2026-03-24 14:30`.
 

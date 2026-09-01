@@ -74,7 +74,9 @@ No need to add `.gitkeep`. Adjust the category names if this project uses a diff
 
 ## 3. Fill in AGENTS.md
 
-Replace the `...` placeholders in `AGENTS.md` with your project's actual info:
+Copy `templates/AGENTS-template.md` to the repo root as `AGENTS.md`. It ships under a different name only so that it does not act as an instruction file inside the standards repo — the copy in your repo must be named `AGENTS.md`.
+
+Then replace the `...` placeholders with your project's actual info:
 
 - Project Overview (name, description, apps/packages)
 - Project Status

@@ -1,0 +1,19 @@
+name: Standards
+
+# This repo publishes agents-md-check.yml. Running it here keeps the standard
+# honest: the file that tells other repos what AGENTS.md must contain is checked
+# against the same rules.
+#
+# skills-drift is not called. This repository is the source of the skills, so it
+# has skills/ rather than a vendored .agents/skills/ and no skills-lock.json.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  agents-md:
+    uses: web3web4/.github/.github/workflows/agents-md-check.yml@main
+    with:
+      verifyScripts: false # no package.json in this repo

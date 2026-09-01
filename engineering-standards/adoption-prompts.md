@@ -31,9 +31,9 @@ From a terminal, with the target repo's window already open, `code --add ~/repos
 
 Use when the repo has no `AGENTS.md`, or only the unfilled template.
 
-**Attach:** `templates/AGENTS-init.md`, `templates/AGENTS.md`, `templates/agents-instructions/architecture-reference.md`, `templates/agents-instructions/README.md`, `templates/README.md`, `env-loading.md`
+**Attach:** `templates/AGENTS-init.md`, `templates/AGENTS-template.md`, `templates/agents-instructions/architecture-reference.md`, `templates/agents-instructions/README.md`, `templates/README.md`, `env-loading.md`
 
-```
+```text
 Set this repository up against the web3web4 engineering standards.
 
 The attached templates/AGENTS-init.md is the authoritative procedure. Follow it in
@@ -65,7 +65,7 @@ Use when the repo already has working conventions. The risk here is an agent fla
 
 **Attach:** the same files as above, plus the repo's current `AGENTS.md` and `CLAUDE.md` if they exist.
 
-```
+```text
 Retrofit the web3web4 engineering standards onto this existing repository.
 
 The attached templates/AGENTS-init.md describes the target end state. It is written for
@@ -103,7 +103,7 @@ Constraints:
 
 Use periodically, or when CI reports drift. Attach nothing — the agent fetches current upstream itself.
 
-```
+```text
 Re-align this repo with the current web3web4 engineering standards.
 
 Run `npx skills update`. Then diff this repo's AGENTS.md and agents-instructions/
@@ -124,11 +124,11 @@ Propose the edits and wait for my approval before applying them.
 
 - **Never edit `.agents/skills/`.** The prompts say it because agents do it anyway. `skills-drift.yml` catches it in CI.
 - **One session per repo.** These prompts assume the agent's working directory is the target repo.
-- **Where prompts live.** These three are org-wide and live here, next to the templates they drive. A one-off task handoff prompt for a single repo belongs in that repo's `task-plans/others/prompts/` instead — see the `prompt-authoring-guide` skill.
+- **Where prompts live.** These three live here because they cannot work anywhere else — they drive the templates in the next folder. A one-off task handoff prompt for a single repo belongs in that repo's `task-plans/others/prompts/`; see the `prompt-authoring-guide` skill. A prompt that shapes an answer and depends on nothing goes in the [prompt library](../prompt-library/) at the repo root.
 
 For a slash command available in any workspace, including repos that have no standards files yet, save prompt 1 as `adopt-standards.prompt.md` in your editor's user prompts folder:
 
-```
+```text
 ---
 description: Set up this repo against the web3web4 engineering standards
 ---

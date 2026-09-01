@@ -41,7 +41,7 @@ jobs:
           err() { echo "::error file=AGENTS.md::$1"; failed=1; }
 
           if [ ! -f AGENTS.md ]; then
-            echo "::error::AGENTS.md is missing from the repo root. See https://github.com/web3web4/.github/blob/main/engineering-standards/templates/AGENTS.md"
+            echo "::error::AGENTS.md is missing from the repo root. See https://github.com/web3web4/.github/blob/main/engineering-standards/templates/AGENTS-template.md"
             exit 1
           fi
 
