@@ -26,8 +26,8 @@ Deviate only when the project has a specific reason to.
 If this project is **not a software development repo** (e.g., documentation, research, regulatory submissions):
 
 - Set `## Project Type` in `AGENTS.md` to the appropriate value.
-- **Skip** steps 2 (architecture-reference), 5 (dotenv-cli), and the quality-gate items in the Checklist. Or replace them with an equivalent/similar step(s), if applicable.
-- **Keep**: `AGENTS.md`, the shared skills (step 3), the skills-drift CI check (step 4), and the `task-plans/` scaffold. Set the categories in `AGENTS.md` to `drafting`/`revisions`/`analysis`.
+- **Skip** _Set up agents-instructions/_, _Install dotenv-cli_, and the quality-gate items in the Checklist. Or replace them with an equivalent/similar step, if applicable.
+- **Keep**: `AGENTS.md`, the shared skills, the CI checks, and the `task-plans/` scaffold. Set the categories in `AGENTS.md` to `drafting`/`revisions`/`analysis`.
 - **Delete** `agents-instructions/architecture-reference.md` — or replace it with the equivalent file for this project. If nothing is left, delete the `agents-instructions/` folder.
 - The implementation quality bar in the `task-plans` skill is written for code. Replace it for this project by putting the rules that actually apply — sourcing, accuracy, review — under `Development Rules` in `AGENTS.md`.
 
@@ -42,40 +42,9 @@ If the workspace has a document-driven workflow (a form, a checklist, a build pi
 
 ---
 
-## 1. Fill in AGENTS.md
+> **Do steps 1 and 2 first, before anything else.** They are ordered ahead of the writing steps on purpose: the `task-plans` skill governs how an agent plans work, and the `task-plans/` folder is where the plan artifact goes. An agent that starts at step 3 has neither, so it cannot follow the process it is about to be told to follow.
 
-Replace the `...` placeholders in `AGENTS.md` with your project's actual info:
-
-- Project Overview (name, description, apps/packages)
-- Project Status
-- Development Rules (especially Testing strategy)
-- Commands — the quality gates. The template ships an example for a TS/pnpm stack; replace it with this project's actual commands. The `task-plans` skill sends the agent here to find them, so a section left as the example (or emptied out) means the gates never run. If the project has non-quality-gate dev workflows worth documenting (cold-start scripts, environment resets, scoped per-app commands, single-test invocation), list them above the quality gates in their own subsection.
-- Git — the base branch and the diff-review command, with this project's lockfile and generated paths excluded.
-
-The skill owns the shared quality bar and the completion procedure. `AGENTS.md` supplies only what differs per project: category names, language and stack rules, commands, and git conventions. Anything you write in `Development Rules` becomes a checkbox the agent adds to its plan, so keep those rules specific and testable. If the project has 2+ recurring task types with different rules (e.g. drafting different document kinds, or working in different app layers), add a `### When doing X` subsection under `Development Rules` for each, instead of one long generic list.
-
-Remove the `> **Setup guide:**` line from the top of `AGENTS.md` when done.
-
-## 2. Set up agents-instructions/
-
-Copy the `agents-instructions/` folder from the templates into your repo root. Then fill in:
-
-- **`architecture-reference.md`**: List your actual tech stack, standard engineering patterns (copy from [org standards](https://github.com/web3web4/.github/blob/main/engineering-standards/)), and key architectural decisions. One line per constraint. Format: `**Topic**: Constraint.`
-
-  Examples to inspire:
-
-  ```markdown
-  - **Auth**: Supabase SSR only. No client-side auth flows.
-  - **Data Fetching**: RSC by default. `use client` only when interactive.
-  - **State**: URL params for shareable, Zustand for complex local.
-  - **API Design**: All endpoints validated with Zod. Return typed responses.
-  ```
-
-Keep this folder small. It holds deep reference material read on demand, not rules the agent needs every session — those go in `AGENTS.md`. Do not add implementation or completion checklists here; the `task-plans` skill owns both.
-
-> The `task-plans/` workflow mechanics and the prompt authoring guide are **not** copied into `agents-instructions/`. They are project-agnostic and installed as shared skills in step 3.
-
-## 3. Install the shared skills
+## 1. Install the shared skills
 
 ```bash
 npx skills add web3web4/.github \
@@ -92,12 +61,56 @@ Refresh later with `npx skills update`. These skills are project-agnostic — **
 
 > Install from the GitHub source, not a local path. `skills-lock.json` records the source verbatim, and a local path is an absolute machine-specific path that breaks `npx skills update` for everyone else.
 
-## 4. Add the skills-drift CI check
+## 2. Scaffold task-plans
 
-Create `.github/workflows/skills-drift.yml`:
+```bash
+mkdir -p task-plans/{todo,doing,done}/{fixes,features,analysis}
+mkdir -p task-plans/todo/deferred
+mkdir -p task-plans/others/prompts
+touch task-plans/todo/scratch.md task-plans/todo/backlog.md
+```
+
+No need to add `.gitkeep`. Adjust the category names if this project uses a different set — whatever you pick here must match the categories you write into `AGENTS.md` in the next step.
+
+## 3. Fill in AGENTS.md
+
+Replace the `...` placeholders in `AGENTS.md` with your project's actual info:
+
+- Project Overview (name, description, apps/packages)
+- Project Status
+- Development Rules (especially Testing strategy)
+- Commands — the quality gates. The template ships an example for a TS/pnpm stack; replace it with this project's actual commands. The `task-plans` skill sends the agent here to find them, so a section left as the example (or emptied out) means the gates never run. If the project has non-quality-gate dev workflows worth documenting (cold-start scripts, environment resets, scoped per-app commands, single-test invocation), list them above the quality gates in their own subsection.
+- Git — the base branch and the diff-review command, with this project's lockfile and generated paths excluded.
+
+The skill owns the shared quality bar and the completion procedure. `AGENTS.md` supplies only what differs per project: category names, language and stack rules, commands, and git conventions. Anything you write in `Development Rules` becomes a checkbox the agent adds to its plan, so keep those rules specific and testable. If the project has 2+ recurring task types with different rules (e.g. drafting different document kinds, or working in different app layers), add a `### When doing X` subsection under `Development Rules` for each, instead of one long generic list.
+
+Remove the `> **Setup guide:**` line from the top of `AGENTS.md` when done.
+
+## 4. Set up agents-instructions/
+
+Copy the `agents-instructions/` folder from the templates into your repo root. Then fill in:
+
+- **`architecture-reference.md`**: List your actual tech stack, standard engineering patterns (copy from [org standards](https://github.com/web3web4/.github/blob/main/engineering-standards/)), and key architectural decisions. One line per constraint. Format: `**Topic**: Constraint.`
+
+  Examples to inspire:
+
+  ```markdown
+  - **Auth**: Supabase SSR only. No client-side auth flows.
+  - **Data Fetching**: RSC by default. `use client` only when interactive.
+  - **State**: URL params for shareable, Zustand for complex local.
+  - **API Design**: All endpoints validated with Zod. Return typed responses.
+  ```
+
+Keep this folder small. It holds deep reference material read on demand, not rules the agent needs every session — those go in `AGENTS.md`. Do not add implementation or completion checklists here; the `task-plans` skill owns both.
+
+> The `task-plans/` workflow mechanics and the prompt authoring guide are **not** copied into `agents-instructions/`. They are project-agnostic and installed as shared skills in step 1.
+
+## 5. Add the standards CI checks
+
+Create `.github/workflows/standards.yml`:
 
 ```yaml
-name: Skills Drift
+name: Standards
 
 on:
   push:
@@ -107,11 +120,25 @@ on:
 jobs:
   skills-drift:
     uses: web3web4/.github/.github/workflows/skills-drift.yml@main
+  agents-md:
+    uses: web3web4/.github/.github/workflows/agents-md-check.yml@main
 ```
 
-It fails if a vendored skill differs from upstream, or if `skills-lock.json` is missing or records a local install source.
+`skills-drift` fails if a vendored skill differs from upstream, or if `skills-lock.json` is missing or records a local install source.
 
-## 5. Install dotenv-cli
+`agents-md` fails if `AGENTS.md` is missing, still contains template placeholders, is missing a required section, still references this setup file, or lists a `pnpm <script>` under `## Commands` that does not exist in the root `package.json`. That last check is what stops the quality gates from rotting: the `task-plans` skill sends every agent to `## Commands`, so a stale script name there silently disables the gates.
+
+Both checks take inputs. Override them only when the project legitimately differs:
+
+```yaml
+  agents-md:
+    uses: web3web4/.github/.github/workflows/agents-md-check.yml@main
+    with:
+      requiredSections: Project Overview,Project Status,Project Type,Development Rules,Commands
+      verifyScripts: true # set false for non-pnpm or non-development repos
+```
+
+## 6. Install dotenv-cli
 
 ```bash
 pnpm add -wD dotenv-cli
@@ -119,31 +146,23 @@ pnpm add -wD dotenv-cli
 
 Adjust the relative path (`../../`) based on app depth. See [env-loading standard](https://github.com/web3web4/.github/blob/main/engineering-standards/env-loading.md).
 
-## 6. Scaffold task-plans
-
-```bash
-mkdir -p task-plans/{todo,doing,done}/{fixes,features,analysis}
-mkdir -p task-plans/todo/deferred
-mkdir -p task-plans/others/prompts
-touch task-plans/todo/scratch.md task-plans/todo/backlog.md
-```
-
-No need to add `.gitkeep`.
-
 ## 7. Optional: README.md hints
 
 [`templates/README.md`](README.md) has a short list of non-exclusive, optional sections (a pointer to `AGENTS.md`, a status badge, a quick-start link) worth adding to this project's existing `README.md` for human readers. Copy only what fits — it is not a drop-in replacement.
 
 ## Checklist
 
-- [ ] Filled in AGENTS.md (Project Overview, Project Status, Project Type, Development Rules, Commands, Git)
-- [ ] _(dev only)_ Copied and filled in `agents-instructions/architecture-reference.md` (Tech Stack, Patterns, Arch Decisions)
+In order. The first two unblock every step after them.
+
 - [ ] Installed the shared skills and committed `.agents/skills/` + `skills-lock.json`
-- [ ] Added `.github/workflows/skills-drift.yml`
+- [ ] Scaffolded `task-plans/` directory
+- [ ] Filled in AGENTS.md (Project Overview, Project Status, Project Type, Development Rules, Commands, Git)
+- [ ] Every command listed under `## Commands` exists and was run once to confirm it passes
+- [ ] _(dev only)_ Copied and filled in `agents-instructions/architecture-reference.md` (Tech Stack, Patterns, Arch Decisions)
+- [ ] Added `.github/workflows/standards.yml` with both the `skills-drift` and `agents-md` jobs. And deleted, if previously existed, `skills-drift.yml` and `agents-md.yml`.
 - [ ] _(Claude Code projects)_ Pointed `CLAUDE.md` at the `.agents/skills/` paths
 - [ ] _(dev only)_ Installed `dotenv-cli` and updated app scripts
 - [ ] _(optional)_ Applied relevant `templates/README.md` hints to this project's README.md
 - [ ] _(non-dev)_ Deleted or replaced the dev-only `agents-instructions/` files, and rewrote `Development Rules` for this project's kind of work
-- [ ] Scaffolded `task-plans/` directory
 - [ ] Removed the "Setup guide" line from the top of AGENTS.md
 - [ ] Deleted this file

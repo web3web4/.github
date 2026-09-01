@@ -13,6 +13,10 @@ This directory contains company-wide engineering standards and patterns. These s
 - [agents-instructions/](templates/agents-instructions/) - Companion reference files reads on demand by AGENTS.md, currently the architecture reference. These are **starting points to rewrite per project**, not drop-ins.
 - [README.md hints](templates/README.md) - Non-exclusive, optional sections to add to a project's existing README.md for human readers. Not a drop-in replacement — copy only what fits.
 
+## Adoption Prompts
+
+[adoption-prompts.md](adoption-prompts.md) - Copy-paste prompts for handing standards adoption to an LLM agent: new project, existing project, and post-update refresh. They reference `AGENTS-init.md` rather than restating it, so the procedure stays in one place.
+
 ## Skills
 
 Project-agnostic agent guidance, shared across repos via the [`skills` CLI](https://github.com/vercel-labs/skills).
@@ -37,13 +41,20 @@ Install from the GitHub source, never a local path: `skills-lock.json` records t
 
 ## Reusable Workflows
 
-- [`skills-drift.yml`](../.github/workflows/skills-drift.yml) - Fails CI when a vendored skill differs from upstream, or when `skills-lock.json` is missing or records a local install source. Call it from a consuming repo:
+Call both from a consuming repo's `.github/workflows/standards.yml`:
 
-  ```yaml
-  jobs:
-    skills-drift:
-      uses: web3web4/.github/.github/workflows/skills-drift.yml@main
-  ```
+```yaml
+jobs:
+  skills-drift:
+    uses: web3web4/.github/.github/workflows/skills-drift.yml@main
+  agents-md:
+    uses: web3web4/.github/.github/workflows/agents-md-check.yml@main
+```
+
+- [`skills-drift.yml`](../.github/workflows/skills-drift.yml) - Fails when a vendored skill differs from upstream, or when `skills-lock.json` is missing or records a local install source.
+- [`agents-md-check.yml`](../.github/workflows/agents-md-check.yml) - Fails when `AGENTS.md` is missing, still contains template placeholders, lacks a required section, still references `AGENTS-init.md`, or lists a `pnpm <script>` under `## Commands` that no longer exists in the root `package.json`. Inputs: `requiredSections`, `verifyScripts`.
+
+The `## Commands` check matters more than it looks. The `task-plans` skill sends every agent session there to find the quality gates, so one stale script name disables the gates for every future task without any other signal.
 
 ## Principles
 

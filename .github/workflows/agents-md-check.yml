@@ -1,0 +1,129 @@
+name: AGENTS.md Check
+
+# Reusable workflow. Consuming repos call it to verify that AGENTS.md is a real
+# project contract and not a half-filled template.
+#
+# skills-drift.yml guards the vendored skills. Nothing guarded AGENTS.md itself,
+# so a repo could pass CI with `...` placeholders or a `## Commands` section
+# listing scripts that no longer exist. The task-plans skill sends every agent to
+# `## Commands` for the quality gates, so a stale script name there silently
+# disables the gates for every future session.
+
+on:
+  workflow_call:
+    inputs:
+      requiredSections:
+        description: Comma-separated `## ` headings that must exist in AGENTS.md.
+        required: false
+        type: string
+        default: Project Overview,Project Status,Project Type,Development Rules,Commands
+      verifyScripts:
+        description: Verify that every `pnpm <script>` under `## Commands` exists in the root package.json.
+        required: false
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify AGENTS.md is filled in
+        env:
+          REQUIRED_SECTIONS: ${{ inputs.requiredSections }}
+        run: |
+          set -uo pipefail
+          failed=0
+          err() { echo "::error file=AGENTS.md::$1"; failed=1; }
+
+          if [ ! -f AGENTS.md ]; then
+            echo "::error::AGENTS.md is missing from the repo root. See https://github.com/web3web4/.github/blob/main/engineering-standards/templates/AGENTS.md"
+            exit 1
+          fi
+
+          if [ -f AGENTS-init.md ]; then
+            err "AGENTS-init.md is still present. Setup is a one-time procedure — finish it and delete the file."
+          fi
+
+          if grep -qF '**Setup guide:**' AGENTS.md; then
+            err "AGENTS.md still carries the 'Setup guide' pointer to AGENTS-init.md. Remove it."
+          fi
+
+          # Placeholders shipped by the template. Any survivor means an unfilled section.
+          # Kept deliberately narrow: `[status]` and `[category]` are legitimate prose in
+          # a finished AGENTS.md, so matching them would fail every healthy repo.
+          while IFS= read -r placeholder; do
+            [ -z "$placeholder" ] && continue
+            if hits=$(grep -nF -- "$placeholder" AGENTS.md); then
+              err "AGENTS.md still contains the template placeholder '$placeholder':"
+              echo "$hits"
+            fi
+          done <<'PLACEHOLDERS'
+          [Project Name]
+          [app/package]
+          <!-- Options: Development —
+          Check `[path]` for the source of truth
+          PLACEHOLDERS
+
+          if hits=$(grep -n '^\.\.\.$' AGENTS.md); then
+            err "AGENTS.md has an unreplaced '...' placeholder line:"
+            echo "$hits"
+          fi
+
+          while IFS= read -r section; do
+            section="$(printf '%s' "$section" | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')"
+            [ -z "$section" ] && continue
+            if ! grep -qF -- "## $section" AGENTS.md; then
+              err "AGENTS.md is missing the required section '## $section'."
+            fi
+          done < <(printf '%s\n' "$REQUIRED_SECTIONS" | tr ',' '\n')
+
+          [ $failed -eq 0 ] && echo "OK  AGENTS.md structure"
+          exit $failed
+
+      - name: Verify Commands section scripts exist
+        if: ${{ inputs.verifyScripts }}
+        run: |
+          set -uo pipefail
+
+          if [ ! -f package.json ]; then
+            echo "No root package.json — skipping script verification. Set verifyScripts: false to silence this."
+            exit 0
+          fi
+
+          # The `## Commands` section only, up to the next `## ` heading.
+          commands=$(awk '/^## Commands[[:space:]]*$/ {inside=1; next} /^## / {inside=0} inside' AGENTS.md)
+
+          if [ -z "$commands" ]; then
+            echo "::error file=AGENTS.md::The '## Commands' section is empty. The task-plans skill reads it to find this project's quality gates."
+            exit 1
+          fi
+
+          # `pnpm run x` and `pnpm x` are the same call. Normalise, then take the
+          # first token after `pnpm`. Flags (`--filter`, `-w`) never match, so
+          # workspace-scoped calls are skipped on purpose — they are not root scripts.
+          scripts=$(printf '%s\n' "$commands" \
+            | sed 's/pnpm run /pnpm /g' \
+            | grep -oE '\bpnpm [a-z][a-zA-Z0-9:._-]*' \
+            | awk '{print $2}' \
+            | sort -u)
+
+          # pnpm's own subcommands, not package scripts.
+          builtins=" add audit bin config create deploy dlx doctor env exec fetch import init install licenses link list ls outdated pack patch prune publish rebuild remove root server setup store unlink update why "
+
+          failed=0
+          for script in $scripts; do
+            case "$builtins" in *" $script "*) continue ;; esac
+            if ! jq -e --arg s "$script" '.scripts // {} | has($s)' package.json > /dev/null; then
+              echo "::error file=AGENTS.md::'## Commands' lists 'pnpm $script', which is not a script in the root package.json. Fix the command or remove it — agents run this section as the quality gates."
+              failed=1
+            else
+              echo "OK  pnpm $script"
+            fi
+          done
+
+          exit $failed
