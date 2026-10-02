@@ -1,6 +1,6 @@
 # AGENTS-init.md — Project Setup
 
-> Use this file **once** when initializing a new project. Run through the setup actions and checklist, then delete this file.
+> Use this file **once** when initializing a new project. Copy it into the target repo's root first — the Checklist below has you delete it there once setup is done, and the `agents-md` CI check looks for that copy. Then run through the setup actions and checklist.
 
 ---
 
@@ -27,7 +27,7 @@ If this project is **not a software development repo** (e.g., documentation, res
 
 - Set `## Project Type` in `AGENTS.md` to the appropriate value.
 - **Skip** _Set up agents-instructions/_, _Install dotenv-cli_, and the quality-gate items in the Checklist. Or replace them with an equivalent/similar step, if applicable.
-- **Keep**: `AGENTS.md`, the shared skills, the CI checks, and the `task-plans/` scaffold. Set the categories in `AGENTS.md` to `drafting`/`revisions`/`analysis`.
+- **Keep**: `AGENTS.md`, the shared skills, the CI checks, and the `task-plans/` scaffold. Set the categories in `AGENTS.md` to `drafting`/`revisions`/`analysis`, or names that fit this project's actual recurring work better (e.g. `planning`/`comms`/`analysis` for an event-organizing project).
 - **Delete** `agents-instructions/architecture-reference.md` — or replace it with the equivalent file for this project. If nothing is left, delete the `agents-instructions/` folder.
 - The implementation quality bar in the `task-plans` skill is written for code. Replace it for this project by putting the rules that actually apply — sourcing, accuracy, review — under `Development Rules` in `AGENTS.md`.
 
@@ -144,6 +144,8 @@ jobs:
 
 `actionlint` validates GitHub Actions workflow syntax. The workflow downloads actionlint from its versioned upstream release, so it does not require a project dependency.
 
+> New repo with no commits yet? Rename the default branch to `main` before the first commit (`git branch -M main`) so it matches this workflow's `branches: [main]` trigger and the `Git` section's base branch in `AGENTS.md`. `git init` still defaults to `master` in some environments.
+
 Both checks take inputs. Override them only when the project legitimately differs:
 
 ```yaml
@@ -179,6 +181,6 @@ In order. The first two unblock every step after them.
 - [ ] _(Claude Code projects)_ Pointed `CLAUDE.md` at the `.agents/skills/` paths
 - [ ] _(dev only)_ Installed `dotenv-cli` and updated app scripts
 - [ ] _(optional)_ Applied relevant `templates/README.md` hints to this project's README.md
-- [ ] _(non-dev)_ Deleted or replaced the dev-only `agents-instructions/` files, and rewrote `Development Rules` for this project's kind of work
+- [ ] _(non-dev)_ Never created `agents-instructions/` for a from-scratch repo, or deleted/replaced it if a prior dev-oriented setup had added it; rewrote `Development Rules` for this project's kind of work
 - [ ] Removed the "Setup guide" line from the top of AGENTS.md
-- [ ] Deleted this file
+- [ ] Deleted this file (the copy you made in the target repo's root, per the note at the top)

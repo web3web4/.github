@@ -50,7 +50,7 @@ See [`agents-instructions/architecture-reference.md`](agents-instructions/archit
 
 ## AI Agent Workflow (The "task-plans" system)
 
-Plans, task breakdowns, investigation notes, and progress logs are not chat output. They are Markdown artifacts under `task-plans/[status]/[category]/`. Status is `todo`/`doing`/`done`. This project's categories are `features`, `fixes`, and `analysis`. <!-- Documentation projects: use drafting/revisions/analysis -->
+Plans, task breakdowns, investigation notes, and progress logs are not chat output. They are Markdown artifacts under `task-plans/[status]/[category]/`. Status is `todo`/`doing`/`done`. This project's categories are `features`, `fixes`, and `analysis` — for a non-dev project, see AGENTS-init.md's Non-Development Projects section for category names.
 
 - **The skill owns the process — read it before you act on it**: Before planning a non-trivial task, creating, moving, or completing an artifact, or resuming earlier work, read [`task-plans`](.agents/skills/task-plans/SKILL.md) in full. Its Procedure 0 decides whether the task needs an artifact. Do not work from memory and do not skim: if you have not opened the file this session, you do not know the rules. It is installed by `npx skills` and shared across repos — never edit it in place; project-specific rules belong in this file.
 - **The deliverable is the artifact, not the chat reply**: When the user asks for a plan, review, audit, or analysis, the deliverable is the artifact file. Reply with a link to it and a short summary.

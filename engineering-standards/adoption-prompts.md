@@ -36,8 +36,9 @@ Use when the repo has no `AGENTS.md`, or only the unfilled template.
 ```text
 Set this repository up against the web3web4 engineering standards.
 
-The attached templates/AGENTS-init.md is the authoritative procedure. Follow it in
-order, from step 1 to the end, and finish by working its Checklist. Do not improvise
+The attached templates/AGENTS-init.md is the authoritative procedure. Start by copying
+it into this repo's root, per its own instructions at the top of the file, then follow
+it in order, from step 1 to the end, and finish by working its Checklist. Do not improvise
 around it and do not reorder it — steps 1 and 2 exist first for a reason stated in the
 file.
 
